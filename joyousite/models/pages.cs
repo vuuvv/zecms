@@ -6,6 +6,7 @@ using System.Data.OleDb;
 
 namespace models
 {
+    public enum Position { first_child, last_child, left, right };
     public class Page : Model
     {
         public static new string[] columns = { "parent_id", "tree_id", "level", "ordering", "lft", "rgt", "title", "content", "is_published", "in_navigation"};
@@ -147,51 +148,103 @@ namespace models
             rm_space(rgt, tree_width, tree_id);
         }
 
-        public void move_to(Page parent)
+        public void move_to(Page target, Position position)
         {
+            Page parent = null;
+            int t_lft = 1;
             int tree_width = rgt - lft + 1;
-            int p_rgt, delta, delta_level;
-            if (parent == null)
+            int delta = t_lft - lft;
+            int delta_level = -level;
+            int t_parent_id = -1;
+            int c_lft = lft;
+            int c_rgt = rgt;
+            int t_tree_id;
+            if (target == null || (target.parent_id == -1 && (position == Position.left || position == Position.right)))
+            {
+                t_tree_id = next_tree_id();
+            }
+            else
+            {
+                // here make sure the parent not be null
+                switch (position)
+                {
+                    case Position.first_child:
+                        parent = target;
+                        t_lft = parent.lft + 1;
+                        break;
+                    case Position.last_child:
+                        parent = target;
+                        t_lft = parent.rgt;
+                        break;
+                    case Position.left:
+                        parent = target.parent;
+                        t_lft = target.lft;
+                        break;
+                    case Position.right:
+                        parent = target.parent;
+                        t_lft = target.rgt + 1;
+                        break;
+                }
+                delta = t_lft - lft;
+                if (tree_id == target.tree_id && t_lft < lft)
+                {
+                    delta = t_lft - lft - tree_width;
+                    c_lft = lft + tree_width;
+                    c_rgt = rgt + tree_width;
+                }
+                t_tree_id = target.tree_id;
+                delta_level = parent.level + 1 - level;
+                t_parent_id = parent.id;
+                add_space(t_lft, tree_width, t_tree_id);
+            }
+            tune(t_tree_id, delta, delta_level, c_lft, c_rgt, t_parent_id);
+            rm_space(c_rgt, tree_width, tree_id);
+            /*
+            int p_rgt;
+            if (target == null)
             {
                 // root node
-                int p_tree_id = next_tree_id();
                 delta = 1 - lft;
                 delta_level = -level;
-                string sql = string.Format("UPDATE {0} SET `lft`=`lft`+{1},`rgt`=`rgt`+{1},`level`=`level`+{2}, `tree_id`={3} WHERE `lft` >= {4} AND `rgt` <={5} AND `tree_id`={6}",
-                    table, delta, delta_level, p_tree_id, lft, rgt, tree_id);
-                db.ExecuteSql(sql);
-                sql = string.Format("UPDATE {0} SET `parent_id`=-1 WHERE `id`={1}", table, id);
-                db.ExecuteSql(sql);
+
+                tune(t_tree_id, delta, delta_level, lft, rgt, -1);
                 rm_space(rgt, tree_width, tree_id);
             }
-            else if (parent.tree_id == tree_id)
+            else if (target.tree_id == tree_id)
             {
-                p_rgt = parent.rgt;
+                p_rgt = target.rgt;
                 delta = p_rgt - lft - tree_width;
-                delta_level = parent.level - 1;
+                delta_level = target.level - 1;
 
-                add_space(p_rgt, tree_width, parent.tree_id);
-                string sql = string.Format("UPDATE {0} SET `lft`=`lft`+{1},`rgt`=`rgt`+{1},`level`=`level`+{2}, `tree_id`={3} WHERE `lft` >= {4} AND `rgt` <={5} AND `tree_id`={6}",
-                    table, delta, delta_level, parent.tree_id, lft + tree_width, rgt + tree_width, tree_id);
-                db.ExecuteSql(sql);
-                sql = string.Format("UPDATE {0} SET `parent_id`={1} WHERE `id`={2}", table, parent.id, id);
-                db.ExecuteSql(sql);
+                add_space(p_rgt, tree_width, target.tree_id);
+                tune(t_tree_id, delta, delta_level, lft + tree_width, rgt + tree_width, parent_id);
                 rm_space(rgt + tree_width, tree_width, tree_id);
             }
             else
             {
-                p_rgt = parent.rgt;
+                p_rgt = target.rgt;
                 delta = p_rgt - lft;
-                delta_level = parent.level - 1;
+                delta_level = target.level - 1;
 
-                add_space(p_rgt, tree_width, parent.tree_id);
-                string sql = string.Format("UPDATE {0} SET `lft`=`lft`+{1},`rgt`=`rgt`+{1},`level`=`level`+{2}, `tree_id`={3} WHERE `lft` >= {4} AND `rgt` <={5} AND `tree_id`={6}",
-                    table, delta, delta_level, parent.tree_id, lft, rgt, tree_id);
-                db.ExecuteSql(sql);
-                sql = string.Format("UPDATE {0} SET `parent_id`={1} WHERE `id`={2}", table, parent.id, id);
-                db.ExecuteSql(sql);
+                add_space(p_rgt, tree_width, target.tree_id);
+                tune(t_tree_id, delta, delta_level, lft, rgt, target.id);
                 rm_space(rgt, tree_width, tree_id);
             }
+            */
+        }
+
+        public void move_to(Page page)
+        {
+            move_to(page, Position.last_child);
+        }
+
+        private void tune(int t_tree_id, int delta, int delta_level, int c_lft, int c_rgt, int parent_id)
+        {
+            string sql = string.Format("UPDATE {0} SET `lft`=`lft`+{1},`rgt`=`rgt`+{1},`level`=`level`+{2}, `tree_id`={3} WHERE `lft` >= {4} AND `rgt` <={5} AND `tree_id`={6}",
+                table, delta, delta_level, t_tree_id, c_lft, c_rgt, tree_id);
+            db.ExecuteSql(sql);
+            sql = string.Format("UPDATE {0} SET `parent_id`={1} WHERE `id`={2}", table, parent_id, id);
+            db.ExecuteSql(sql);
         }
 
         private void add_space(int rgt, int size, int tree_id)
