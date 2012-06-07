@@ -36,7 +36,7 @@
                     <i class="icon-plus open"></i>
                     <i class="icon-minus close"></i>
                 </a>
-                <a href="javascript:;" class="delete icon-remove"></a>
+                <a href="admin.ashx?action=page_delete&id=<%= page.id %>" class="delete icon-remove"></a>
                 <a href="javascirpt:;" class="changelink"><%= page.title %></a>
                 <span class="ordering">
                     <i class="icon-chevron-up"></i>

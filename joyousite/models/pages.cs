@@ -96,11 +96,11 @@ namespace models
             }
         }
 
-        public static Page get(int id) 
+        public static Page get(object id) 
         {
             string sql = "SELECT * FROM pages where id=@id";
             OleDbDataReader reader = db.ExecuteReader(sql, new Dictionary<string, object> {
-                {"@id", id},
+                {"@id", Convert.ToInt32(id)},
             });
             if (reader.HasRows)
             {
