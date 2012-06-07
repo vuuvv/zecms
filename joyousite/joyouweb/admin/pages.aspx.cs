@@ -12,8 +12,6 @@ namespace joyouweb.admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            models.Page p = models.Page.get(96);
-            p.move_to(models.Page.get(94), Position.left);
         }
     }
 }

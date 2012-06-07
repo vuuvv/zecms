@@ -14,6 +14,8 @@ namespace models
 
         public static string table = "";
 
+        public int id { get; set; }
+
         protected static DbHelperOleDb db
         {
             get
@@ -22,12 +24,11 @@ namespace models
             }
         }
 
-        protected static object single_from_reader(OleDbDataReader reader, Type t)
+        protected static object fetch_data_from_reader(OleDbDataReader reader, Type t)
         {
             Assembly assembly = Assembly.GetAssembly(t);
             object model = assembly.CreateInstance(t.FullName);
 
-            reader.Read();
             // set id
             t.GetProperty("id").SetValue(model, reader.GetValue(reader.GetOrdinal("id")), null);
 
@@ -39,12 +40,18 @@ namespace models
             return model;
         }
 
+        protected static object single_from_reader(OleDbDataReader reader, Type t)
+        {
+            reader.Read();
+            return fetch_data_from_reader(reader, t);
+        }
+
         protected static List<object> list_from_reader(OleDbDataReader reader, Type t)
         {
             List<object> objs = new List<object>();
             while (reader.Read())
             {
-                objs.Add(single_from_reader(reader, t));
+                objs.Add(fetch_data_from_reader(reader, t));
             }
             return objs;
         }
@@ -64,7 +71,7 @@ namespace models
             {
                 args.Add(string.Format("@{0}",col), t.GetProperty(col).GetValue(this, null));
             }
-            db.ExecuteSql(sql, args);
+            id = db.ExecuteInsert(sql, args);
         }
 
         protected static List<object> find(Dictionary<string, object> args, Type t)

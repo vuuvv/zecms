@@ -1,10 +1,12 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="admin.Master.cs" Inherits="joyouweb.admin.AdminMaster" %>
+﻿<%@ Master Language="C#" EnableViewState="false" AutoEventWireup="true" CodeBehind="admin.Master.cs" Inherits="joyouweb.admin.AdminMaster" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head id="Head1" runat="server">
-    <title></title>
-    <link href="~/Styles/bootstrap.css" rel="stylesheet" type="text/css" />
+    <title>JOYOU</title>
+    <script src="/Scripts/jquery-1.4.1.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery-ui-1.8.14.custom.min.js" type="text/javascript"></script>
+    <link href="/Styles/bootstrap.css" rel="stylesheet" type="text/css" />
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
 </head>

@@ -36,6 +36,14 @@ namespace dbutils
             connectionString = connStr;
         }
 
+        public OleDbConnection conn
+        {
+            get
+            {
+                return new OleDbConnection(connectionString);
+            }
+        }
+
         #region  Ö´ÐÐ¼òµ¥SQLÓï¾ä
 
         /// <summary>
@@ -403,6 +411,22 @@ namespace dbutils
             {
                 foreach (OleDbParameter parm in cmdParms)
                     cmd.Parameters.Add(parm);
+            }
+        }
+
+        public int ExecuteInsert(string sql, Dictionary<string, object> args)
+        {
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                using (OleDbCommand cmd = new OleDbCommand())
+                {
+                    PrepareCommand(cmd, connection, null, sql, args);
+                    cmd.ExecuteNonQuery();
+                    cmd.CommandText = "SELECT @@IDENTITY FROM test";
+                    OleDbDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    return (int)reader.GetValue(0);
+                }
             }
         }
 

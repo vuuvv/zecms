@@ -58,13 +58,20 @@
     <Content Include="admin\pages.aspx" />
     <Content Include="App_Data\joyou.mdb" />
     <Content Include="controls\pageform.ascx" />
+    <Content Include="controls\pagetree.ascx" />
+    <Content Include="img\glyphicons-halflings-white.png" />
+    <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="Scripts\jquery-ui-1.8.14.custom.min.js" />
+    <Content Include="Scripts\page_tree.js" />
     <Content Include="Styles\bootstrap.css" />
+    <Content Include="Styles\page_tree.css" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Styles\typography.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -136,6 +143,13 @@
     </Compile>
     <Compile Include="controls\pageform.ascx.designer.cs">
       <DependentUpon>pageform.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="controls\pagetree.ascx.cs">
+      <DependentUpon>pagetree.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="controls\pagetree.ascx.designer.cs">
+      <DependentUpon>pagetree.ascx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

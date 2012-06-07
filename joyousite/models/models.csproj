@@ -43,6 +43,7 @@
     <Compile Include="pages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="test.cs" />
+    <Compile Include="TreeModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\db\db.csproj">

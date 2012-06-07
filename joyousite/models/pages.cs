@@ -9,18 +9,16 @@ namespace models
     public enum Position { first_child, last_child, left, right };
     public class Page : Model
     {
-        public static new string[] columns = { "parent_id", "tree_id", "level", "ordering", "lft", "rgt", "title", "content", "is_published", "in_navigation"};
+        public static new string[] columns = { "parent_id", "tree_id", "level", "lft", "rgt", "title", "content", "is_published", "in_navigation"};
         public static new string table = "pages";
 
         private Page _parent;
         private List<Page> _children;
         private List<Page> _ancestors;
 
-        public int id { get; set; }
         public int parent_id { get; set; }
         public int tree_id { get; set; }
         public int level { get; set; }
-        public int ordering { get; set; }
         public int lft { get; set; }
         public int rgt { get; set; }
         public string title { get; set; }
@@ -54,16 +52,34 @@ namespace models
             }
         }
 
+        public bool is_leaf
+        {
+            get
+            {
+                return rgt - lft == 1;
+            }
+        }
+
         public List<Page> children
         {
             get
             {
                 if (_children != null)
                     return _children;
-                string sql = string.Format("SELECT * FROM pages WHERE lft > {0} AND rgt < {1} AND tree_id = {2} ORDER BY lft ASC, ordering ASC", lft, rgt, tree_id);
+                string sql = string.Format("SELECT * FROM pages WHERE lft > {0} AND rgt < {1} AND tree_id = {2} ORDER BY lft ASC", lft, rgt, tree_id);
                 OleDbDataReader reader = db.ExecuteReader(sql);
                 _children = pages_from_reader(reader);
                 return _children;
+            }
+        }
+
+        public static List<Page> all
+        {
+            get
+            {
+                string sql = "SELECT * FROM pages ORDER BY tree_id ASC, lft ASC";
+                OleDbDataReader reader = db.ExecuteReader(sql);
+                return pages_from_reader(reader);
             }
         }
 
@@ -98,7 +114,7 @@ namespace models
 
         public static List<Page> find(Dictionary<string, object> args)
         {
-            string sql = "SELECT * FROM {0} WHERE {1}";
+            //string sql = "SELECT * FROM {0} WHERE {1}";
             List<Page> pages = new List<Page>();
             return pages;
         }
@@ -127,12 +143,6 @@ namespace models
                 tree_id = parent.tree_id;
                 level = parent.level + 1;
             }
-            /*
-            string sql = string.Format("UPDATE pages SET `rgt`=`rgt`+2 WHERE `rgt` >= {0} AND `tree_id` = {1}", lft, tree_id);
-            db.ExecuteSql(sql);
-            sql = string.Format("UPDATE pages SET `lft`=`lft`+2 WHERE `lft` >= {0} AND `tree_id` = {1}", lft, tree_id);
-            db.ExecuteSql(sql);
-            */
             add_space(parent.rgt, 2, tree_id);
         }
 
@@ -199,38 +209,6 @@ namespace models
             }
             tune(t_tree_id, delta, delta_level, c_lft, c_rgt, t_parent_id);
             rm_space(c_rgt, tree_width, tree_id);
-            /*
-            int p_rgt;
-            if (target == null)
-            {
-                // root node
-                delta = 1 - lft;
-                delta_level = -level;
-
-                tune(t_tree_id, delta, delta_level, lft, rgt, -1);
-                rm_space(rgt, tree_width, tree_id);
-            }
-            else if (target.tree_id == tree_id)
-            {
-                p_rgt = target.rgt;
-                delta = p_rgt - lft - tree_width;
-                delta_level = target.level - 1;
-
-                add_space(p_rgt, tree_width, target.tree_id);
-                tune(t_tree_id, delta, delta_level, lft + tree_width, rgt + tree_width, parent_id);
-                rm_space(rgt + tree_width, tree_width, tree_id);
-            }
-            else
-            {
-                p_rgt = target.rgt;
-                delta = p_rgt - lft;
-                delta_level = target.level - 1;
-
-                add_space(p_rgt, tree_width, target.tree_id);
-                tune(t_tree_id, delta, delta_level, lft, rgt, target.id);
-                rm_space(rgt, tree_width, tree_id);
-            }
-            */
         }
 
         public void move_to(Page page)
@@ -263,12 +241,37 @@ namespace models
             db.ExecuteSql(sql);
         }
 
+        private List<string> sql_add_space(int rgt, int size, int tree_id)
+        {
+            List<string> sqls = new List<string>();
+            sqls.Add(string.Format("UPDATE {0} SET `lft`=`lft`+{1} WHERE `lft` >= {2} AND `tree_id`={3}", table, size, rgt, tree_id));
+            sqls.Add(string.Format("UPDATE {0} SET `rgt`=`rgt`+{1} WHERE `rgt` >= {2} AND `tree_id`={3}", table, size, rgt, tree_id));
+            return sqls;
+        }
+
+        private List<string> sql_rm_space(int rgt, int size, int tree_id)
+        {
+            List<string> sqls = new List<string>();
+            sqls.Add(string.Format("UPDATE {0} SET `lft`=`lft`-{1} WHERE `lft` >= {2} AND `tree_id`={3}", table, size, rgt, tree_id));
+            sqls.Add(string.Format("UPDATE {0} SET `rgt`=`rgt`-{1} WHERE `rgt` >= {2} AND `tree_id`={3}", table, size, rgt, tree_id));
+            return sqls;
+        }
+
+        private List<string> sql_tune(int t_tree_id, int delta, int delta_level, int c_lft, int c_rgt, int parent_id)
+        {
+            List<string> sqls = new List<string>();
+            sqls.Add(string.Format("UPDATE {0} SET `lft`=`lft`+{1},`rgt`=`rgt`+{1},`level`=`level`+{2}, `tree_id`={3} WHERE `lft` >= {4} AND `rgt` <={5} AND `tree_id`={6}",
+                table, delta, delta_level, t_tree_id, c_lft, c_rgt, tree_id));
+            sqls.Add(string.Format("UPDATE {0} SET `parent_id`={1} WHERE `id`={2}", table, parent_id, id));
+            return sqls;
+        }
+
         public static List<Page> pages_from_reader(OleDbDataReader reader)
         {
             List<Page> pages = new List<Page>();
             while (reader.Read())
             {
-                Page page = (Page)single_from_reader(reader, typeof(Page));
+                Page page = (Page)fetch_data_from_reader(reader, typeof(Page));
                 pages.Add(page);
             }
             return pages;
