@@ -277,6 +277,33 @@ namespace models
             return pages;
         }
 
+        public static string prop_to_string(object obj, string attr)
+        {
+            object val = obj.GetType().GetProperty(attr).GetValue(obj, null);
+            Type t = val.GetType();
+            if (t == typeof(string))
+            {
+                return string.Format("\"{0}\"", val);
+            }
+            else
+            {
+                return val.ToString();
+            }
+        }
+
+        public static string to_json(object obj, string[] attrs)
+        {
+            string json = "{{{0}}}";
+            string tmpl = "{0}:{1}";
+            List<string> parts = new List<string>();
+            Type t = obj.GetType();
+            foreach (string attr in attrs)
+            {
+                parts.Add(string.Format(tmpl, string.Format("\"{0}\"", attr), prop_to_string(obj, attr))); 
+            }
+            return string.Format(json, string.Join(",", parts.ToArray()));
+        }
+
         private static int next_tree_id() 
         {
             string sql = "SELECT MAX(`tree_id`) FROM pages";
