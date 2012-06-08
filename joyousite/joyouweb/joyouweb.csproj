@@ -462,6 +462,7 @@
     <Content Include="Scripts\xheditor\xheditor_skin\vista\img\waiting.gif" />
     <Content Include="Scripts\xheditor\xheditor_skin\vista\img\wmp.gif" />
     <Content Include="Scripts\xheditor\xheditor_skin\vista\ui.css" />
+    <Content Include="Scripts\ztree.js" />
     <Content Include="Styles\bootstrap.css" />
     <Content Include="Styles\page_tree.css" />
     <Content Include="Styles\Site.css" />

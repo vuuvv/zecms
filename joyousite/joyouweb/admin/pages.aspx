@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 <link href="/Styles/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
 <script src="/Scripts/jquery.ztree.all-3.2.js" type="text/javascript"></script>
+<script src="/Scripts/ztree.js" type="text/javascript"></script>
 <script src="/Scripts/xheditor/xheditor-1.1.13-en.min.js" type="text/javascript"></script>
 <style type="text/css">
 .sidebox 
@@ -77,7 +78,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span2">
+        <div class="span3">
             <div class="sidebox">
                 <div class="hd">
                     <div class="h2">Page tree</div>
@@ -98,7 +99,7 @@
                 </div>
             </div>
         </div>
-        <div class="span10">
+        <div class="span9">
             <div class="content">
                 <form class="form-horizontal" action="admin.ashx" id="page-form">
                     <fieldset>
@@ -121,7 +122,7 @@
                         <div class="control-group">
                             <label class="control-label" for="page-content">Content:</label>
                             <div class="controls">
-                                <textarea rows="10" cols="40" id="page-content" class="input-xxlarge xheditor"></textarea>
+                                <textarea rows="20" cols="40" id="page-content" class="input-xxlarge xheditor"></textarea>
                                 <p class="help-block">&nbsp;</p>
                             </div>
                         </div>
@@ -264,19 +265,36 @@ function save() {
 
 var nodes = [
 <% foreach(models.Page page in pages) { %>
-    {id:<%= page.id %>, pId:<%= page.parent_id %>, name:"<%= page.title %>"},
+    {id:<%= page.id %>, parent_id:<%= page.parent_id %>, name:"<%= page.title %>"},
 <% } %>
 ]
 
 $(function() {
-    $.fn.zTree.init($("#page-tree"), setting, nodes);
-    $.fn.zTree.init($("#page-parent-tree"), select_setting, nodes);
+    $("#page-tree").ztree({
+        setting: setting,
+        nodes: nodes
+    }).ztree("expandAll", true);
+    var ddtree = $("#page-parents").ddtree({
+        setting: {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        },
+        outputs: [
+            {dom: $("#page-parent"), key: "name"},
+            {dom: $("#page-parent-id"), key: "id"}
+        ],
+        host: $("#page-parent"),
+        nodes: nodes
+    });
     $("#save_add").click(function() {
         save();
         return false;
     });
     $("#page-parent-select").click(function() {
-        show_menu();
+        ddtree.ddtree("show");
         return false;
     });
 });
