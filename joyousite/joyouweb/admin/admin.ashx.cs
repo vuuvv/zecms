@@ -29,6 +29,27 @@ namespace joyouweb.admin
             context.Response.Write(string.Format("{0}", page.id));
         }
 
+        public void page_rename(HttpContext context)
+        {
+            context.Response.ContentType = "text/json";
+            int id = int.Parse(context.Request.Params["id"]);
+        }
+
+        public void page_update(HttpContext context)
+        {
+            context.Response.ContentType = "text/json";
+            int id = int.Parse(context.Request.Params["id"]);
+            models.Page page = models.Page.get(id);
+            if (!string.IsNullOrEmpty(context.Request.Params["parent_id"]))
+            {
+                int parent_id = Convert.ToInt32(context.Request.Params["parent_id"]);
+                if (parent_id != page.parent_id)
+                {
+                    page.move_to(models.Page.get(parent_id));
+                }
+            }
+        }
+
         public void page_delete(HttpContext context)
         {
             context.Response.ContentType = "text/plain";

@@ -112,6 +112,17 @@ namespace models
             }
         }
 
+        public static void update(int id, Dictionary<string, object> args)
+        {
+            string[] cols = args.Keys.ToArray();
+            string sql = string.Format(
+                "UPDATE {0} SET {1} WHERE id={2}", 
+                table, 
+                join_to_format(cols, "`{0}`=@{0}"),
+                id
+            );
+        }
+
         public static List<Page> find(Dictionary<string, object> args)
         {
             //string sql = "SELECT * FROM {0} WHERE {1}";

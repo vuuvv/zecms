@@ -74,6 +74,25 @@ namespace models
             id = db.ExecuteInsert(sql, args);
         }
 
+        protected void update()
+        {
+            Type t = this.GetType();
+            Dictionary<string, object> args = new Dictionary<string, object>();
+            string[] cols = (string[])t.GetField("columns").GetValue(null);
+            string table = (string)t.GetField("table").GetValue(null);
+            string sql = string.Format(
+                "UPDATE {0} SET {1} WHERE id={2}", 
+                table, 
+                join_to_format(cols, "`{0}`=@{0}"),
+                id
+            );
+            foreach (string col in cols)
+            {
+                args.Add(string.Format("@{0}",col), t.GetProperty(col).GetValue(this, null));
+            }
+            db.ExecuteSql(sql, args);
+        }
+
         protected static List<object> find(Dictionary<string, object> args, Type t)
         {
             string sql = string.Format("SELECT * FROM {0} WHERE {1}");

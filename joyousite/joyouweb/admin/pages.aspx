@@ -109,6 +109,7 @@
                             <div class="controls">
                                 <input type="text" class="input-medium" readonly="readonly" id="page-parent" />
                                 <a href="#" id="page-parent-select">select</a>
+                                <a href="#" id="page-parent-clear">clear</a>
                                 <p class="help-block">&nbsp;</p>
                             </div>
                         </div>
@@ -167,28 +168,6 @@ var setting = {
     }
 };
 
-var select_setting = {
-    view: {
-        dblClickExpand: false,
-        showLine: true,
-        selectedMulti: false
-    },
-    data: {
-        simpleData: {
-            enable:true,
-            idKey: "id",
-            pIdKey: "pId",
-            rootPId: ""
-        }
-    },
-    callback: {
-        onClick: function(e, tree_id, tree_node) {
-            $("#page-parent").val(tree_node.name);
-            $("#page-parent-id").val(tree_node.id);
-        }
-    }
-}
-
 function addHoverDom(treeId, treeNode) {
     var sObj = $("#" + treeNode.tId + "_span");
     if (treeNode.editNameFlag || $("#addBtn_"+treeNode.id).length>0) return;
@@ -226,27 +205,6 @@ function onClick(e, tree_id, tree_node) {
     });
 }
 
-function onBodyDown(event) {
-    if (!(event.target.id == "page-parents" || event.target.id == "page-parent-tree" || $(event.target).parents("#page-parents").length > 0)) {
-        hide_menu();
-    }
-}
-
-function show_menu() {
-    var page_parent = $("#page-parent");
-    var offset = page_parent.offset();
-    $("#page-parents").css({
-        left: offset.left + "px",
-        top: offset.top + page_parent.outerHeight() + "px"
-    }).slideDown("fast");
-    $("body").bind("mousedown", onBodyDown);
-}
-
-function hide_menu() {
-    $("#page-parents").fadeOut("fast");
-    $("body").unbind("mousedown", onBodyDown);
-}
-
 function save() {
     var data = {
         parent_id: $("#page-parent-id").val(),
@@ -270,31 +228,33 @@ var nodes = [
 ]
 
 $(function() {
+/*
     $("#page-tree").ztree({
         setting: setting,
         nodes: nodes
     }).ztree("expandAll", true);
-    var ddtree = $("#page-parents").ddtree({
-        setting: {
-            data: {
-                simpleData: {
-                    enable: true
-                }
-            }
+*/
+    $("#page-tree").dbtree({
+        nodes: nodes
+    });
+    $("#page-parents").ddtree({
+        outputs: {
+            name: $("#page-parent"),
+            id: $("#page-parent-id")
         },
-        outputs: [
-            {dom: $("#page-parent"), key: "name"},
-            {dom: $("#page-parent-id"), key: "id"}
-        ],
         host: $("#page-parent"),
         nodes: nodes
     });
-    $("#save_add").click(function() {
-        save();
+    $("#page-parent-select").click(function() {
+        $("#page-parents").ddtree("show");
         return false;
     });
-    $("#page-parent-select").click(function() {
-        ddtree.ddtree("show");
+    $("#page-parent-clear").click(function() {
+        $("#page-parents").ddtree("clear");
+        return false;
+    });
+    $("#save_add").click(function() {
+        save();
         return false;
     });
 });
