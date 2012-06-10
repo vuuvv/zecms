@@ -12,55 +12,6 @@ var create_or_call = function($dom, name, option, args, cls) {
 	});
 }
 
-var Ztree = function(element, options) {
-	var $element = this.$element = $(element),
-		defaults = $.fn.ztree.defaults,
-		options = this.options = $.extend(true, {}, defaults, options);
-
-	if (!$element.hasClass('ztree'))
-		$element.addClass('ztree');
-	this.ztree = $.fn.zTree.init($element, options.setting, options.nodes);
-};
-
-Ztree.prototype = {
-};
-
-$.fn.ztree = function(option) {
-	var args = arguments;
-	return this.each(function() {
-		var $this = $(this),
-			data = $this.data('ztree'),
-			options = typeof option == 'object' && option;
-		if (!data) // ztree not created, now create
-			$this.data('ztree', (data = new Ztree(this, options)));
-		if (typeof option == 'string') // call method
-			data.ztree[option].apply(data.ztree, Array.prototype.slice.call(args, 1));
-	});
-}
-
-$.fn.ztree.defaults = {
-	setting: {
-		data: {
-			simpleData: {
-				enable: true,
-				idKey: "id",
-				pIdKey: "parent_id"
-			}
-		},
-		edit: {
-			enable: true
-		},
-		check: {
-			enable: true,
-			nocheckInherit: true
-		},
-		view: {
-		},
-		callback: {
-		}
-	}
-};
-
 var DropDownTree = function(container, options) {
 	var $container = this.$container = $(container),
 		$element = this.$element = $container.find("ul.ztree"),
@@ -178,22 +129,22 @@ var DBTree = function(element, options) {
 			nameIsHTML: true
 		},
 		callback: {
-			onClick: function(tree_id, tree_node) {
+			onClick: function(event, tree_id, tree_node) {
 				self.on_click(tree_id, tree_node);
 			},
 			beforeRemove: function(tree_id, tree_node) {
 				return confirm("Confirm delete page '" + tree_node.name + "' it?");
 			},
-			onRename: function(tree_id, tree_node) {
+			onRename: function(event, tree_id, tree_node) {
 				self.on_rename(tree_id, tree_node);
 			},
-			onRemove: function(tree_id, tree_node) {
+			onRemove: function(event, tree_id, tree_node) {
 				self.on_remove(tree_id, tree_node);
 			}
 		}
 	};
 	var $element = this.$element = $(element),
-		defaults = $.fn.ddtree.defaults,
+		defaults = $.fn.dbtree.defaults,
 		options = this.options = $.extend(true, {}, defaults, options),
 		nodes = options.nodes || {};
 	options.setting = $.extend(true, {}, dbtree_setting, options.setting);
@@ -211,7 +162,18 @@ DBTree.prototype = {
 	to_add_node: function() {
 	},
 
-	to_update_node: function() {
+	to_update_node: function(tree_id, tree_node) {
+		$.ajax({
+			url: "/admin/admin.ashx?action=page_item",
+			data: {
+				id: tree_node.id
+			},
+			success: function(data) {
+				var form = $("#page-form");
+				form.find("[name=title]").val(data.title);
+				form.find("[name=content]").val(data.content);
+			}
+		});
 	},
 
 	add_hover_dom: function(tree_id, tree_node) {
@@ -252,7 +214,7 @@ DBTree.prototype = {
 	},
 
 	on_click: function(tree_id, tree_node) {
-		to_update_node(tree_id, tree_node);
+		this.to_update_node(tree_id, tree_node);
 	}
 };
 

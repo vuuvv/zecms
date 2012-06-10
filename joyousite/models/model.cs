@@ -8,11 +8,13 @@ using dbutils;
 
 namespace models
 {
-    public class Model
+    public abstract class Model
     {
         public static string[] columns = {};
 
         public static string table = "";
+
+        private Dictionary<string, Field> _fields;
 
         public int id { get; set; }
 

@@ -107,7 +107,7 @@
                         <div class="control-group">
                             <label class="control-label" for="page-parent">Parent:</label>
                             <div class="controls">
-                                <input type="text" class="input-medium" readonly="readonly" id="page-parent" />
+                                <input type="text" name="parent" class="input-medium" readonly="readonly" id="page-parent" />
                                 <a href="#" id="page-parent-select">select</a>
                                 <a href="#" id="page-parent-clear">clear</a>
                                 <p class="help-block">&nbsp;</p>
@@ -116,19 +116,19 @@
                         <div class="control-group">
                             <label class="control-label" for="page-title">Title:</label>
                             <div class="controls">
-                                <input type="text" class="input-xxlarge" id="page-title" />
+                                <input type="text" class="input-xxlarge" id="page-title" name="title" />
                                 <p class="help-block">&nbsp;</p>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="page-content">Content:</label>
                             <div class="controls">
-                                <textarea rows="20" cols="40" id="page-content" class="input-xxlarge xheditor"></textarea>
+                                <textarea rows="20" cols="40" id="page-content" name="content" class="input-xxlarge xheditor"></textarea>
                                 <p class="help-block">&nbsp;</p>
                             </div>
                         </div>
                         <div class="form-actions">
-                            <input type="hidden" id="page-parent-id" name="page-parent-id" value="-1" />
+                            <input type="hidden" id="page-parent-id" name="parent_id" value="-1" />
                             <button id="save_add" class="btn btn-primary" type="submit">Save and add another</button>
                             <button id="save_edit" class="btn btn-primary" type="submit">Save and continue editing</button>
                         </div>
@@ -142,68 +142,6 @@
     </div>
 </div>
 <script type="text/javascript">
-
-var setting = {
-    data: {
-        simpleData: {
-            enable: true
-        }
-    },
-    edit: {
-        enable: true
-    },
-    check: {
-        enable: true,
-        nocheckInherit: true
-    },
-    view: {
-        addHoverDom: addHoverDom,
-        removeHoverDom: removeHoverDom,
-        nameIsHTML: true
-    },
-    callback: {
-        onClick: onClick,
-        beforeRemove: beforeRemove,
-        onRemove: onRemove
-    }
-};
-
-function addHoverDom(treeId, treeNode) {
-    var sObj = $("#" + treeNode.tId + "_span");
-    if (treeNode.editNameFlag || $("#addBtn_"+treeNode.id).length>0) return;
-    var addStr = "<span class='button add' id='addBtn_" + treeNode.id
-        + "' title='add node' onfocus='this.blur();'></span>";
-    sObj.append(addStr);
-    var btn = $("#addBtn_"+treeNode.id);
-    if (btn) btn.bind("click", function(){
-        new_page(treeId, treeNode);
-        return false;
-    });
-};
-
-function new_page(treeId, treeNode) 
-{
-}
-
-function removeHoverDom(treeId, treeNode) {
-    $("#addBtn_"+treeNode.id).unbind().remove();
-};
-
-function beforeRemove(tree_id, tree_node) {
-    return confirm("Confirm delete page '" + tree_node.name + "' it?");
-}
-
-function onRemove(e, tree_id, tree_node) {
-    $.ajax({
-        url: "/admin/admin.ashx?action=page_delete&id=" + tree_node.id
-    });
-}
-
-function onClick(e, tree_id, tree_node) {
-    $.getJSON("/admin/admin.ashx?action=page_item&id=" + tree_node.id, function(data){
-        console.log(data);
-    });
-}
 
 function save() {
     var data = {
@@ -228,12 +166,6 @@ var nodes = [
 ]
 
 $(function() {
-/*
-    $("#page-tree").ztree({
-        setting: setting,
-        nodes: nodes
-    }).ztree("expandAll", true);
-*/
     $("#page-tree").dbtree({
         nodes: nodes
     });

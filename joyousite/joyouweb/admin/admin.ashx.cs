@@ -33,6 +33,9 @@ namespace joyouweb.admin
         {
             context.Response.ContentType = "text/json";
             int id = int.Parse(context.Request.Params["id"]);
+            models.Page.update(id, new Dictionary<string, object>() {
+                {"title", context.Request.Params["title"]}
+            });
         }
 
         public void page_update(HttpContext context)

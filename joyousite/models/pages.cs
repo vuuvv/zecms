@@ -121,6 +121,11 @@ namespace models
                 join_to_format(cols, "`{0}`=@{0}"),
                 id
             );
+            foreach (string col in cols)
+            {
+                args.Add(string.Format("@{0}",col), args[col]);
+            }
+            id = db.ExecuteSql(sql, args);
         }
 
         public static List<Page> find(Dictionary<string, object> args)
