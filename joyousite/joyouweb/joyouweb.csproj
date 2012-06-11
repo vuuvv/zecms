@@ -57,6 +57,7 @@
     <Content Include="admin\default.aspx" />
     <Content Include="admin\filebrowser.aspx" />
     <Content Include="admin\pages.aspx" />
+    <Content Include="allin\index.aspx" />
     <Content Include="App_Data\joyou.mdb" />
     <Content Include="controls\pageform.ascx" />
     <Content Include="controls\pagetree.ascx" />
@@ -195,6 +196,7 @@
     <Content Include="img\icons\ui-datepicker-next.png" />
     <Content Include="img\icons\ui-datepicker-prev-hover.png" />
     <Content Include="img\icons\ui-datepicker-prev.png" />
+    <Content Include="Scripts\allin\remaind.js" />
     <Content Include="Scripts\elfinder\connectors\python\connector.py" />
     <Content Include="Scripts\elfinder\connectors\python\elFinder.py" />
     <Content Include="Scripts\elfinder\css\elfinder.css" />
@@ -525,7 +527,28 @@
     <Content Include="Scripts\xheditor\xheditor_skin\vista\img\wmp.gif" />
     <Content Include="Scripts\xheditor\xheditor_skin\vista\ui.css" />
     <Content Include="Scripts\ztree.js" />
+    <Content Include="Styles\allin\img\activity.png" />
+    <Content Include="Styles\allin\img\bg.jpg" />
+    <Content Include="Styles\allin\img\date.png" />
+    <Content Include="Styles\allin\img\focus.png" />
+    <Content Include="Styles\allin\img\history.png" />
+    <Content Include="Styles\allin\img\hot.png" />
+    <Content Include="Styles\allin\img\remaind.png" />
+    <Content Include="Styles\allin\img\video.png" />
+    <Content Include="Styles\allin\style.css" />
     <Content Include="Styles\bootstrap.css" />
+    <Content Include="Styles\joyou\img\bg_bottom.gif" />
+    <Content Include="Styles\joyou\img\bg_shadow.png" />
+    <Content Include="Styles\joyou\img\bg_top.gif" />
+    <Content Include="Styles\joyou\img\footer_bg.jpg" />
+    <Content Include="Styles\joyou\img\footer_bg.png" />
+    <Content Include="Styles\joyou\img\header_bg.png" />
+    <Content Include="Styles\joyou\img\logo.png" />
+    <Content Include="Styles\joyou\img\menu_bg.png" />
+    <Content Include="Styles\joyou\img\page_footer_shadow.png" />
+    <Content Include="Styles\joyou\main.css" />
+    <Content Include="Styles\joyou\reset-min.css" />
+    <Content Include="Styles\joyou\superfish.css" />
     <Content Include="Styles\page_tree.css" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
@@ -624,6 +647,13 @@
     <Compile Include="admin\pages.aspx.designer.cs">
       <DependentUpon>pages.aspx</DependentUpon>
     </Compile>
+    <Compile Include="allin\index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="allin\index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
     <Compile Include="controls\pageform.ascx.cs">
       <DependentUpon>pageform.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -654,6 +684,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="joyou.Master.cs">
+      <DependentUpon>joyou.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="joyou.Master.designer.cs">
+      <DependentUpon>joyou.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
@@ -694,8 +731,11 @@
   <ItemGroup>
     <Folder Include="files\" />
     <Folder Include="Scripts\elfinder\files\" />
+    <Folder Include="static\css\" />
+    <Folder Include="static\js\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="joyou.Master" />
     <None Include="Scripts\elfinder\Changelog" />
     <None Include="Scripts\elfinder\connectors\php\connector.php" />
     <None Include="Scripts\elfinder\connectors\php\elFinder.class.php" />

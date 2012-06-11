@@ -1,0 +1,177 @@
+.home-page 
+{
+    height: 450px;
+    width: 960px;
+    margin: 60px auto;
+}
+.home-main 
+{
+    height: 400px;
+    background: url(img/bg.jpg);
+    position: relative;
+}
+.abs 
+{
+    position: absolute;
+    display: block;
+}
+
+.link 
+{
+    cursor: pointer;
+}
+
+.remaind 
+{
+    top: 25px;
+    left: 760px;
+    height: 32px;
+    width: 156px;
+    color: #fff;
+    padding-top: 22px;
+    font-size: 19px;
+    font-weight: bold;
+    font-family: Arial;
+    background: url(img/remaind.png);
+	_background: none;
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/remaind.png');
+}
+
+#remaind-day-0
+{
+    left: 13px;
+}
+
+#remaind-day-1
+{
+    left: 29px;
+}
+
+#remaind-hour-0
+{
+    left: 60px;
+}
+
+#remaind-hour-1
+{
+    left: 76px;
+}
+
+#remaind-minite-0
+{
+    left: 108px;
+}
+
+#remaind-minite-1
+{
+    left: 124px;
+}
+
+.remaind-hour
+{
+}
+
+.remaind-minite
+{
+}
+
+.home-focus 
+{
+    background: url(img/focus.png);
+    width: 32px;
+    height: 98px;
+    left: 0;
+    top: 156px;
+}
+
+.home-hot 
+{
+    background: url(img/hot.png);
+    width: 130px;
+    height: 76px;
+    left: 219px;
+    top: 295px;
+	_background: none;
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/hot.png');
+}
+
+.home-video
+{
+    background: url(img/video.png);
+    width: 135px;
+    height: 80px;
+    left: 649px;
+    top: 94px;
+	_background: none;
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/video.png');
+}
+
+.home-activity
+{
+    background: url(img/activity.png);
+    width: 176px;
+    height: 102px;
+    left: 478px;
+    top: 36px;
+	_background: none;
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/activity.png');
+}
+
+.home-date
+{
+    background: url(img/date.png);
+    width: 169px;
+    height: 102px;
+    left: 615px;
+    top: 267px;
+	_background: none;
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/date.png');
+}
+
+.home-history
+{
+    background: url(img/history.png);
+    width: 131px;
+    height: 76px;
+    left: 191px;
+    top: 85px;
+	_background: none;
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/history.png');
+}
+
+.home-footer 
+{
+    background: #fff;
+}
+
+.home-footer-nav 
+{
+    height: 36px;
+    width: 650px;
+    margin: 0 auto;
+}
+
+.home-footer-nav ul
+{
+    margin: 0;
+    padding: 10px 0 0;
+    list-style: none;
+}
+
+.home-footer-nav li 
+{
+    float: left;
+}
+
+.home-footer-nav li a 
+{
+    padding: 0 30px 0;
+    border-left: 1px solid #777;
+    text-decoration: none;
+    color: #666;
+}
+
+.home-footer-nav li.first a 
+{
+    border-left: none;
+}

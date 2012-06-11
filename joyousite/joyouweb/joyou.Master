@@ -1,0 +1,47 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="joyou.master.cs" Inherits="joyouweb.joyou" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        <asp:ContentPlaceHolder ID="title" runat="server">
+        </asp:ContentPlaceHolder>
+    </title>
+    <link href="/Styles/joyou/reset-min.css" rel="stylesheet" type="text/css" />
+    <link href="/Styles/joyou/main.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <div class="bg-main-top"></div>
+ 	<div class="container-overlay">
+		<div class="container">
+			<div class="header">
+				<div class="header_bg"></div>
+					<div class="top-links">
+                        <asp:ContentPlaceHolder ID="top_links" runat="server">
+                        </asp:ContentPlaceHolder>
+					</div>
+					<div class="logobox"></div>
+					<div class="header-search-box">
+						<div class="search-bar">
+							<input type="text" class="search-bar-input" />
+							<input type="button" class="search-bar-submit" />
+						</div>
+						<div class="search-bar-filter"></div>
+					</div>
+			</div>
+			<div class="content">
+                <asp:ContentPlaceHolder ID="content" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+			<div class="footer">
+                <asp:ContentPlaceHolder ID="footer" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+		</div>
+	</div>
+	<div class="bg-main-bottom"></div>
+</body>
+</html>
