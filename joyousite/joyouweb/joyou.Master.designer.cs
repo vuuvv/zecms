@@ -31,7 +31,7 @@ namespace joyouweb {
         protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
         
         /// <summary>
-        /// top-links control.
+        /// top_links control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.

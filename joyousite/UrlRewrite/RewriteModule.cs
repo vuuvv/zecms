@@ -15,6 +15,10 @@ namespace UrlRewrite
         protected virtual void ModuleRewrite_AuthorizeRequest(object sender, EventArgs e)
         {
             HttpApplication app = (HttpApplication)sender;
+            if (app.Context.Request.Path.EndsWith(".aspx"))
+            {
+                app.Context.RewritePath("/admin/pages.aspx");
+            }
             //app.Context.Response.Write(app.Context.Request.Path);
         }
     }

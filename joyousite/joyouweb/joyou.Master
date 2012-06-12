@@ -44,4 +44,14 @@
 	</div>
 	<div class="bg-main-bottom"></div>
 </body>
+<script type="text/javascript">
+    $(function () {
+        var body = $("body"),
+            body_height = body.height();
+        if (window.innerHeight > body_height) {
+            var c = $(".content");
+            c.css("min-height", c.height() + window.innerHeight - body_height);
+        }
+    });
+</script>
 </html>

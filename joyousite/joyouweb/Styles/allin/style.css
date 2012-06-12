@@ -6,7 +6,7 @@
 {
     height: 450px;
     width: 960px;
-    margin: 10px auto;
+    margin: 0 auto;
 }
 .home-main 
 {
@@ -19,7 +19,7 @@
     width: 100%;
     background: url(img/bg.png);
 	_background: none;
-	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/bg.png');
+	_FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/bg.png');
 }
 .abs 
 {
@@ -45,7 +45,7 @@
     font-family: Arial;
     background: url(img/remaind.png);
 	_background: none;
-	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/remaind.png');
+	_FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/remaind.png');
 }
 
 #remaind-day-0
@@ -103,7 +103,7 @@
     left: 219px;
     top: 295px;
 	_background: none;
-	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/hot.png');
+	_FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/hot.png');
 }
 
 .home-video
@@ -114,7 +114,7 @@
     left: 649px;
     top: 94px;
 	_background: none;
-	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/video.png');
+	_FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/video.png');
 }
 
 .home-activity
@@ -125,7 +125,7 @@
     left: 478px;
     top: 36px;
 	_background: none;
-	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/activity.png');
+	_FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/activity.png');
 }
 
 .home-date
@@ -136,7 +136,7 @@
     left: 615px;
     top: 267px;
 	_background: none;
-	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/date.png');
+	_FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/date.png');
 }
 
 .home-history
@@ -147,7 +147,7 @@
     left: 191px;
     top: 85px;
 	_background: none;
-	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/history.png');
+	_FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/history.png');
 }
 
 .home-banner {
