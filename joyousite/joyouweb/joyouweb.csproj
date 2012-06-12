@@ -528,7 +528,6 @@
     <Content Include="Scripts\xheditor\xheditor_skin\vista\ui.css" />
     <Content Include="Scripts\ztree.js" />
     <Content Include="Styles\allin\img\activity.png" />
-    <Content Include="Styles\allin\img\bg.jpg" />
     <Content Include="Styles\allin\img\date.png" />
     <Content Include="Styles\allin\img\focus.png" />
     <Content Include="Styles\allin\img\history.png" />
@@ -713,6 +712,10 @@
     <ProjectReference Include="..\models\models.csproj">
       <Project>{B53B585B-0671-412C-9FBD-EA85265202BC}</Project>
       <Name>models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UrlRewrite\UrlRewrite.csproj">
+      <Project>{6BDC5F90-19DF-4295-87A3-1A03A949A649}</Project>
+      <Name>UrlRewrite</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

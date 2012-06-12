@@ -9,7 +9,7 @@ namespace models
     public enum Position { first_child, last_child, left, right };
     public class Page : Model
     {
-        public static new string[] columns = { "parent_id", "tree_id", "level", "lft", "rgt", "title", "content", "is_published", "in_navigation"};
+        public static new string[] columns = { "parent_id", "tree_id", "level", "lft", "rgt", "slug", "title", "content", "is_published", "in_navigation"};
         public static new string table = "pages";
 
         private Page _parent;
@@ -25,6 +25,7 @@ namespace models
         public string content { get; set; }
         public bool is_published { get; set; }
         public int in_navigation { get; set; }
+        public string slug { get; set; }
 
         public Page()
         {
@@ -151,6 +152,7 @@ namespace models
                 rgt = 2;
                 level = 0;
                 tree_id = next_tree_id();
+                slug = title;
             }
             else
             {
@@ -158,6 +160,7 @@ namespace models
                 rgt = lft + 1;
                 tree_id = parent.tree_id;
                 level = parent.level + 1;
+                slug = string.Format("{0}/{1}", parent.slug, title);
             }
             add_space(parent.rgt, 2, tree_id);
         }

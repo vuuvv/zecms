@@ -1,14 +1,25 @@
+.header-search-box 
+{
+    display:none;
+}
 .home-page 
 {
     height: 450px;
     width: 960px;
-    margin: 60px auto;
+    margin: 10px auto;
 }
 .home-main 
 {
     height: 400px;
-    background: url(img/bg.jpg);
     position: relative;
+}
+.home-main-overlay 
+{
+    height: 400px;
+    width: 100%;
+    background: url(img/bg.png);
+	_background: none;
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/bg.png');
 }
 .abs 
 {
@@ -23,10 +34,10 @@
 
 .remaind 
 {
-    top: 25px;
+    top: 5px;
     left: 760px;
-    height: 32px;
-    width: 156px;
+    height: 30px;
+    width: 154px;
     color: #fff;
     padding-top: 22px;
     font-size: 19px;
@@ -137,6 +148,64 @@
     top: 85px;
 	_background: none;
 	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/allin/img/history.png');
+}
+
+.home-banner {
+	height: 76px;
+	width: 600px;
+    margin: 0 auto;
+	padding-top: 20px;
+	overflow: hidden;
+}
+
+.home-banner ul {
+}
+
+.home-banner li {
+	background: url(img/app_bg.png);
+	float: left;
+	height: 76px;
+	margin: 0 33px 0 32px;
+	width: 48px;
+}
+
+.home-banner li a {
+	text-decoration: none;
+	display: block;
+	text-align: center;
+	position: relative;
+	top: 0;
+	height: 76px;
+	color: #666;
+	outline: none;
+}
+
+.home-banner li a:hover {
+	color: #0077bb;
+	border: none;
+}
+
+.home-banner li a img {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-moz-transition: top 0.1s linear;
+	-webkit-transition: top 0.1s linear;
+	-o-transition: top 0.1s linear;
+	transition: top 0.1s linear;
+}
+
+.home-banner li a:hover img {
+	top: -8px;
+}
+
+.home-banner li a strong {
+	display: block;
+	position: absolute;
+	width: 48px;
+	bottom: 0;
+	left: 0;
 }
 
 .home-footer 

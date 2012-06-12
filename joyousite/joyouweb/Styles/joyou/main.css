@@ -1,3 +1,7 @@
+html 
+{
+}
+
 body {
 	color: #404040;
 	font-family: Verdana,Segoe,Tahoma,Verdana,sans-serif;
@@ -28,7 +32,7 @@ body {
 	margin: -222px auto -205px;
 	z-index: 1;
 	_background: none;
-	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/static/joyou/css/img/bg_shadow.png')
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/joyou/img/bg_shadow.png')
 }
 
 .container {
@@ -49,7 +53,7 @@ body {
 	width: 100%;
 	background: url(img/header_bg.png);
 	_background: none;
-	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/static/joyou/css/img/header_bg.png')
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/joyou/img/header_bg.png')
 }
 
 .logobox {
@@ -59,6 +63,8 @@ body {
 	height: 60px;
 	position: absolute;
 	background: url("img/logo.png");
+	_background: none;
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='/Styles/joyou/img/logo.png')
 }
 
 .top-links {
