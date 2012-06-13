@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElFinder.Connector", "ElFin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlRewrite", "UrlRewrite\UrlRewrite.csproj", "{6BDC5F90-19DF-4295-87A3-1A03A949A649}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "page", "page\page.csproj", "{C064A8AE-A450-42DF-9A89-D576DC097B29}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = joyousite.vsmdi
@@ -53,6 +55,10 @@ Global
 		{6BDC5F90-19DF-4295-87A3-1A03A949A649}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BDC5F90-19DF-4295-87A3-1A03A949A649}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BDC5F90-19DF-4295-87A3-1A03A949A649}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C064A8AE-A450-42DF-9A89-D576DC097B29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C064A8AE-A450-42DF-9A89-D576DC097B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C064A8AE-A450-42DF-9A89-D576DC097B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C064A8AE-A450-42DF-9A89-D576DC097B29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

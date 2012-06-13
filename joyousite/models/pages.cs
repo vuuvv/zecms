@@ -32,6 +32,11 @@ namespace models
             parent_id = -1;
         }
 
+        public override string ToString()
+        {
+            return title;
+        }
+
         public Page parent
         {
             get
@@ -113,6 +118,22 @@ namespace models
             }
         }
 
+        public static Page from_slug(string slug)
+        {
+            string sql = "SELECT * FROM pages where slug=@slug";
+            OleDbDataReader reader = db.ExecuteReader(sql, new Dictionary<string, object> {
+                {"@slug", slug},
+            });
+            if (reader.HasRows)
+            {
+                return (Page)single_from_reader(reader, typeof(Page));
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static void update(int id, Dictionary<string, object> args)
         {
             string[] cols = args.Keys.ToArray();
@@ -152,7 +173,7 @@ namespace models
                 rgt = 2;
                 level = 0;
                 tree_id = next_tree_id();
-                slug = title;
+                slug = "/" + title.Replace(" ", "_").ToLower();
             }
             else
             {
@@ -160,9 +181,9 @@ namespace models
                 rgt = lft + 1;
                 tree_id = parent.tree_id;
                 level = parent.level + 1;
-                slug = string.Format("{0}/{1}", parent.slug, title);
+                slug = string.Format("{0}/{1}", parent.slug, title.Replace(" ", "_").ToLower());
+                add_space(parent.rgt, 2, tree_id);
             }
-            add_space(parent.rgt, 2, tree_id);
         }
 
         public void update(Page page)
@@ -299,14 +320,22 @@ namespace models
         public static string prop_to_string(object obj, string attr)
         {
             object val = obj.GetType().GetProperty(attr).GetValue(obj, null);
+            if (val == null)
+            {
+                return "\"\"";
+            }
             Type t = val.GetType();
             if (t == typeof(string))
             {
                 return string.Format("\"{0}\"", val);
             }
-            else
+            else if (t == typeof(int))
             {
                 return val.ToString();
+            }
+            else
+            {
+                return string.Format("\"{0}\"", val.ToString());
             }
         }
 

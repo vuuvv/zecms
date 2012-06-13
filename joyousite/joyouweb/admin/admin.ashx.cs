@@ -55,7 +55,7 @@ namespace joyouweb.admin
 
         public void page_delete(HttpContext context)
         {
-            context.Response.ContentType = "text/plain";
+            context.Response.ContentType = "text/json";
             models.Page.get(context.Request.Params["id"]).delete();
         }
 
@@ -63,7 +63,28 @@ namespace joyouweb.admin
         {
             context.Response.ContentType = "text/json";
             models.Page page = models.Page.get(context.Request.Params["id"]);
-            context.Response.Write(models.Page.to_json(page, new string[]{"id", "parent_id", "title", "content"}));
+            context.Response.Write(models.Page.to_json(page, new string[]{"id", "parent_id", "title", "content", "parent"}));
+        }
+
+        public void page_tree(HttpContext context)
+        {
+            context.Response.ContentType = "text/json";
+            int id = int.Parse(context.Request.Params["id"]);
+            List<models.Page> pages;
+            if (id == -1)
+            {
+                pages = models.Page.all;
+            }
+            else
+            {
+                pages = models.Page.get(context.Request.Params["id"]).children;
+            }
+            List<string> json = new List<string>();
+            foreach (models.Page p in pages)
+            {
+                json.Add(models.Page.to_json(p, new string[] { "id", "parent_id", "title", "content" }));
+            }
+            context.Response.Write(string.Format("[{0}]", string.Join(",", json.ToArray())));
         }
 
         public bool IsReusable

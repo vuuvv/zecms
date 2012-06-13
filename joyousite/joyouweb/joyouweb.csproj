@@ -58,6 +58,7 @@
     <Content Include="admin\filebrowser.aspx" />
     <Content Include="admin\pages.aspx" />
     <Content Include="allin\index.aspx" />
+    <Content Include="allin\template.aspx" />
     <Content Include="App_Data\joyou.mdb" />
     <Content Include="controls\pageform.ascx" />
     <Content Include="controls\pagetree.ascx" />
@@ -653,6 +654,13 @@
     <Compile Include="allin\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="allin\template.aspx.cs">
+      <DependentUpon>template.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="allin\template.aspx.designer.cs">
+      <DependentUpon>template.aspx</DependentUpon>
+    </Compile>
     <Compile Include="controls\pageform.ascx.cs">
       <DependentUpon>pageform.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -712,6 +720,10 @@
     <ProjectReference Include="..\models\models.csproj">
       <Project>{B53B585B-0671-412C-9FBD-EA85265202BC}</Project>
       <Name>models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\page\page.csproj">
+      <Project>{C064A8AE-A450-42DF-9A89-D576DC097B29}</Project>
+      <Name>page</Name>
     </ProjectReference>
     <ProjectReference Include="..\UrlRewrite\UrlRewrite.csproj">
       <Project>{6BDC5F90-19DF-4295-87A3-1A03A949A649}</Project>

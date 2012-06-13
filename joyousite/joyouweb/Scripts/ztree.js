@@ -105,7 +105,14 @@ $.fn.ddtree.defaults = {
 var DBTree = function(element, options) {
 	var self = this;
 	var dbtree_setting = {
+		async: {
+			enable: true,
+			url: '/admin/admin.ashx?action=page_tree&id=-1'
+		},
 		data: {
+			key: {
+				name: "title"
+			},
 			simpleData: {
 				enable: true,
 				idKey: "id",
@@ -145,21 +152,31 @@ var DBTree = function(element, options) {
 	};
 	var $element = this.$element = $(element),
 		defaults = $.fn.dbtree.defaults,
-		options = this.options = $.extend(true, {}, defaults, options),
-		nodes = options.nodes || {};
+		options = this.options = $.extend(true, {}, defaults, options);
 	options.setting = $.extend(true, {}, dbtree_setting, options.setting);
-	this.create(nodes);
+	this.create();
 };
 
 DBTree.prototype = {
-	create: function(nodes) {
+	create: function() {
 		var options = this.options;
 
-		options.nodes = nodes;
-		this.ztree = $.fn.zTree.init(this.$element, options.setting, nodes).expandAll(true); 
+		this.ztree = $.fn.zTree.init(this.$element, options.setting);
+		this.ztree.expandAll(true);
 	},
 
-	to_add_node: function() {
+	to_add_node: function(tree_id, tree_node) {
+		var p = tree_node.getParentNode(),
+			form = $("page-form");
+		form.find("legend").text("New Page");
+		form.find("[name=action]").val("page-add");
+		if (p) {
+			form.find("[name=parent_id]").val(p.id);
+			form.find("[name=parent]").val(p.name);
+		} else {
+			form.find("[name=parent_id]").val(-1);
+			form.find("[name=parent]").val("");
+		}
 	},
 
 	to_update_node: function(tree_id, tree_node) {
@@ -170,10 +187,19 @@ DBTree.prototype = {
 			},
 			success: function(data) {
 				var form = $("#page-form");
+				form.find("legend").text("Update Page: " + data.title);
+				form.find("[name=action]").val("page-update");
+				form.find("[name=id]").val(data.id);
 				form.find("[name=title]").val(data.title);
 				form.find("[name=content]").val(data.content);
+				form.find("[name=parent_id]").val(data.parent_id);
+				form.find("[name=parent]").val(data.parent);
 			}
 		});
+	},
+
+	refresh: function() {
+		this.ztree.reAsyncChildNodes(null, "refresh");
 	},
 
 	add_hover_dom: function(tree_id, tree_node) {
@@ -225,6 +251,17 @@ $.fn.dbtree = function(option) {
 $.fn.dbtree.defaults = {
 }
 
+var Form = function(element, options) {
+	var options = this.options = $.extend(true, {}, $.fn.form.defaults, options),
+		fields = this.fields = options.fields || {};
+};
+
+$.fn.form = function(option) {
+	return create_or_call(this, "dbtree", option, arguments, DBTree);
+}
+
+$.fn.form.defaults = {
+}
 
 }(jQuery);
 

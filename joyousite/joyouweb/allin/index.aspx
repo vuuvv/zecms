@@ -2,7 +2,6 @@
 
 <asp:Content ContentPlaceHolderID="title" runat="server">All in JOYOU</asp:Content>
 <asp:Content ContentPlaceHolderID="head" runat="server">
-    <script src="/Scripts/jquery-1.4.4.min.js" type="text/javascript"></script>
     <script src="/Scripts/allin/remaind.js" type="text/javascript"></script>
     <link href="/Styles/allin/style.css" rel="stylesheet" type="text/css" />
 </asp:Content>
@@ -42,31 +41,31 @@
         <div class="home-banner">
             <ul>
                 <li>
-                    <a href="#" hidefocus="true">
+                    <a href="history.aspx" hidefocus="true">
                         <img height="48" width="48" alt="往  届" src="https://img.tenpay.com/v2/res/img/global/index_app/app_credit.png" />
                         <strong>往  届</strong>
                     </a>
                 </li>
                 <li>
-                    <a href="#" hidefocus="true">
+                    <a href="activity.aspx" hidefocus="true">
                         <img height="48" width="48" alt="活  动" src="https://img.tenpay.com/v2/res/img/global/index_app/app_plane.png" />
                         <strong>活  动</strong>
                     </a>
                 </li>
                 <li>
-                    <a href="#" hidefocus="true">
+                    <a href="video.aspx" hidefocus="true">
                         <img height="48" width="48" alt="视  频" src="https://img.tenpay.com/v2/res/img/global/index_app/app_safetymarket.png" />
                         <strong>视  频</strong>
                     </a>
                 </li>
                 <li>
-                    <a href="#" hidefocus="true">
+                    <a href="hot.aspx" hidefocus="true">
                         <img height="48" width="48" alt="热  图" src="https://img.tenpay.com/v2/res/img/global/index_app/app_mortgage.png" />
                         <strong>热  图</strong>
                     </a>
                 </li>
                 <li>
-                    <a href="#" hidefocus="true">
+                    <a href="date.aspx" hidefocus="true">
                         <img height="48" width="48" alt="相约中宇" src="https://img.tenpay.com/v2/res/img/global/index_app/app_jiaofei.png" />
                         <strong>相约中宇</strong>
                     </a>

@@ -85,13 +85,13 @@
                 </div>
                 <ul class="nav nav-pills btns">
                     <li>
-                        <i class="icon-plus"></i>
+                        <i id="page-tree-new" class="icon-plus"></i>
                     </li>
                     <li>
-                        <i class="icon-remove"></i>
+                        <i id="page-tree-remove" class="icon-remove"></i>
                     </li>
                     <li>
-                        <i class="icon-refresh"></i>
+                        <i id="page-tree-refresh" class="icon-refresh"></i>
                     </li>
                 </ul>
                 <div class="bd">
@@ -128,6 +128,8 @@
                             </div>
                         </div>
                         <div class="form-actions">
+                            <input type="hidden" id="page-id" name="id" value="" />
+                            <input type="hidden" id="page-action" name="action" value="page-add" />
                             <input type="hidden" id="page-parent-id" name="parent_id" value="-1" />
                             <button id="save_add" class="btn btn-primary" type="submit">Save and add another</button>
                             <button id="save_edit" class="btn btn-primary" type="submit">Save and continue editing</button>
@@ -145,6 +147,7 @@
 
 function save() {
     var data = {
+        id: $("#page-id").val(),
         parent_id: $("#page-parent-id").val(),
         title: $("#page-title").val(),
         content: $("#page-content").val()
@@ -167,7 +170,10 @@ var nodes = [
 
 $(function() {
     $("#page-tree").dbtree({
-        nodes: nodes
+    });
+    $("#page-tree-refresh").click(function() {
+        $("#page-tree").dbtree("refresh");
+        return false;
     });
     $("#page-parents").ddtree({
         outputs: {
