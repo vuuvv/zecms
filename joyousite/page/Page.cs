@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace page
+namespace vuuvv.page
 {
     class Page : System.Web.UI.Page
     {
