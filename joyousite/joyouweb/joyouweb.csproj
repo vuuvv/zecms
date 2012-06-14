@@ -654,13 +654,6 @@
     <Compile Include="allin\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
-    <Compile Include="allin\template.aspx.cs">
-      <DependentUpon>template.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="allin\template.aspx.designer.cs">
-      <DependentUpon>template.aspx</DependentUpon>
-    </Compile>
     <Compile Include="controls\pageform.ascx.cs">
       <DependentUpon>pageform.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -724,10 +717,6 @@
     <ProjectReference Include="..\page\vuuvv.page.csproj">
       <Project>{C064A8AE-A450-42DF-9A89-D576DC097B29}</Project>
       <Name>vuuvv.page</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UrlRewrite\UrlRewrite.csproj">
-      <Project>{6BDC5F90-19DF-4295-87A3-1A03A949A649}</Project>
-      <Name>UrlRewrite</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

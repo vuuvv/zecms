@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/joyou.Master" AutoEventWireup="true" CodeBehind="template.aspx.cs" Inherits="joyouweb.allin.template" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/joyou.Master" AutoEventWireup="true" Inherits="vuuvv.page.Template" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="title" runat="server">
 <%= page.title %>
 </asp:Content>

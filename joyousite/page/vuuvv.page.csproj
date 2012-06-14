@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="configuration\PageConfigurationSection.cs" />
-    <Compile Include="Page.cs">
+    <Compile Include="configuration\PageSection.cs" />
+    <Compile Include="Template.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

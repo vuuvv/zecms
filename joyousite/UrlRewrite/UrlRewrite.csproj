@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -47,6 +48,10 @@
     <ProjectReference Include="..\models\models.csproj">
       <Project>{B53B585B-0671-412C-9FBD-EA85265202BC}</Project>
       <Name>models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\page\vuuvv.page.csproj">
+      <Project>{C064A8AE-A450-42DF-9A89-D576DC097B29}</Project>
+      <Name>vuuvv.page</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
