@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Data.OleDb;
@@ -14,7 +15,10 @@ namespace models
 
         public static string table = "";
 
-        private Dictionary<string, Field> _fields;
+        protected static Dictionary<string, Field> _fields = new Dictionary<string, Field>()
+        {
+            { "id", new IntegerField() }
+        };
 
         public int id { get; set; }
 
@@ -37,7 +41,7 @@ namespace models
             string[] cols = (string[])t.GetField("columns").GetValue(null);
             foreach (string col in cols)
             {
-                t.GetProperty(col).SetValue(model, reader.GetValue(reader.GetOrdinal(col)), null);
+                t.GetProperty(col).SetValue(model, reader[col], null);
             }
             return model;
         }

@@ -11,7 +11,13 @@ namespace joyouweb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            var db = vuuvv.db.DBHelper.get();
+            int id = db.insert("test", "INSERT INTO test (name, age) VALUES(@name, @age)", new Dictionary<string, object>()
+            {
+                {"@name", "Mike"},
+                {"@age", 38},
+            });
+            Response.Write(id);
         }
     }
 }
