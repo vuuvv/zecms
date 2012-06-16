@@ -11,6 +11,7 @@ namespace joyouweb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            string t = vuuvv.db.TreeModel.table;
             var db = vuuvv.db.DBHelper.get();
             int id = db.insert("test", "INSERT INTO test (name, age) VALUES(@name, @age)", new Dictionary<string, object>()
             {

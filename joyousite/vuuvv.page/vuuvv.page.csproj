@@ -53,6 +53,10 @@
       <Project>{B53B585B-0671-412C-9FBD-EA85265202BC}</Project>
       <Name>models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\vuuvv.db\vuuvv.db.csproj">
+      <Project>{1FF03BFB-FE60-4DA2-8AD3-8832E872719B}</Project>
+      <Name>vuuvv.db</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

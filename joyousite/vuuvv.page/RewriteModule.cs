@@ -58,6 +58,7 @@ namespace vuuvv.page
         public virtual void Init(HttpApplication app)
         {
             app.AuthorizeRequest += new EventHandler(ModuleRewrite_AuthorizeRequest);
+            app.EndRequest += new EventHandler(db_close);
         }
 
         public virtual void Dispose() { }
@@ -68,14 +69,17 @@ namespace vuuvv.page
             dispatch(app.Context);
         }
 
+        protected virtual void db_close(object sender, EventArgs e)
+        {
+            vuuvv.db.DBHelper.get().disconnect();
+        }
+
         protected void dispatch(HttpContext context)
         {
             HttpRequest req = context.Request;
             string path = pop_string(req.Path.ToLower(), req.ApplicationPath);
             if (!path.EndsWith(".aspx"))
                 return;
-
-
 
             path = to_slug(path, new string[] { "/index.aspx", "/default.aspx"}, ".aspx");
             RouteElementsCollection routes = config.routes;

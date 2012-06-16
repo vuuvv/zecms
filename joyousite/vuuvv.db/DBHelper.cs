@@ -25,38 +25,43 @@ namespace vuuvv.db
 
         public static DBHelper get()
         {
-            
-            if (HttpContext.Current.Cache["dbhelper"] == null)
+            var db = HttpContext.Current.Cache["dbhelper"];
+
+            if (db == null)
             {
-                HttpContext.Current.Cache.Insert("dbhelper", DBHelper.create());
+                db = DBHelper.create();
+                HttpContext.Current.Cache.Insert("dbhelper", db);
             }
-            return (DBHelper)HttpContext.Current.Cache["dbhelper"];
+            return (DBHelper)db;
         }
 
-        public static object fetch_object(DbDataReader reader, Type t)
+        public DbConnection conn
         {
-            Assembly assembly = Assembly.GetAssembly(t);
-            object model = assembly.CreateInstance(t.FullName);
-
-            // set id
-            t.GetProperty("id").SetValue(model, reader["id"], null);
-
-            Dictionary<string, Field> fields = (Dictionary<string, Field>)t.GetField("fields").GetValue(null);
-            foreach (var field in fields)
+            get
             {
-                t.GetProperty(field.Key).SetValue(model, field.Value.to_object(reader[field.Key]), null);
+                DbConnection c = (DbConnection)HttpContext.Current.Items["dbconnection"];
+                if (c == null || c.State == ConnectionState.Closed)
+                {
+                    c = connect();
+                    HttpContext.Current.Items["dbconnection"] = c;
+                }
+                return c;
             }
-            return model;
         }
 
-        public static string join_to_format(string[] cols, string format)
+        private DbConnection connect()
         {
-            List<string> rets = new List<string>();
-            foreach (string col in cols)
-            {
-                rets.Add(string.Format(format, col));
-            }
-            return string.Join(",", rets.ToArray());
+            DbConnection c = factory.CreateConnection();
+            c.ConnectionString = connection_string;
+            c.Open();
+            return c;
+        }
+
+        public void disconnect()
+        {
+            DbConnection c = (DbConnection)HttpContext.Current.Items["dbconnection"];
+            if (c != null)
+                c.Close();
         }
 
         private DBHelper(string connection_string, string provider)
@@ -67,81 +72,79 @@ namespace vuuvv.db
 
         public int execute(string sql)
         {
-            using (DbConnection conn = factory.CreateConnection())
+            using (DbCommand cmd = factory.CreateCommand())
             {
-                conn.ConnectionString = connection_string;
-                using (DbCommand cmd = factory.CreateCommand())
-                {
-                    cmd.Connection = conn;
-                    cmd.CommandText = sql;
+                cmd.Connection = conn;
+                cmd.CommandText = sql;
 
-                    conn.Open();
-                    int rows = cmd.ExecuteNonQuery();
-                    return rows;
-                }
+                int rows = cmd.ExecuteNonQuery();
+                return rows;
             }
         }
 
         public int execute(string sql, Dictionary<string, object> args)
         {
-            using (DbConnection conn = factory.CreateConnection())
+            using (DbCommand cmd = factory.CreateCommand())
             {
-                conn.ConnectionString = connection_string;
-                using (DbCommand cmd = factory.CreateCommand())
-                {
-                    prepare(cmd, conn, null, sql, args);
-                    int rows = cmd.ExecuteNonQuery();
-                    cmd.Parameters.Clear();
-                    return rows;
-                }
+                prepare(cmd, conn, null, sql, args);
+                int rows = cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+                return rows;
             }
         }
 
         public int insert(string table, string sql, Dictionary<string, object> args)
         {
-            using (DbConnection conn = factory.CreateConnection())
+            using (DbCommand cmd = factory.CreateCommand())
             {
-                conn.ConnectionString = connection_string;
-                using (DbCommand cmd = factory.CreateCommand())
-                {
-                    prepare(cmd, conn, null, sql, args);
-                    cmd.ExecuteNonQuery();
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT @@IDENTITY FROM " + table;
-                    DbDataReader reader = cmd.ExecuteReader();
-                    reader.Read();
-                    return (int)reader.GetValue(0);
-                }
+                prepare(cmd, conn, null, sql, args);
+                cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+                cmd.CommandText = "SELECT @@IDENTITY FROM " + table;
+                DbDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                return (int)reader.GetValue(0);
             }
         }
 
         public DbDataReader query(string sql)
         {
-            using (DbConnection conn = factory.CreateConnection())
+            using (DbCommand cmd = factory.CreateCommand())
             {
-                conn.ConnectionString = connection_string;
-                using (DbCommand cmd = factory.CreateCommand())
-                {
-                    cmd.Connection = conn;
-                    cmd.CommandText = sql;
+                cmd.Connection = conn;
+                cmd.CommandText = sql;
 
-                    conn.Open();
-                    return cmd.ExecuteReader();
-                }
+                DbDataReader reader = cmd.ExecuteReader();
+                return reader;
             }
         }
 
         public DbDataReader query(string sql, Dictionary<string, object> args)
         {
-            using (DbConnection conn = factory.CreateConnection())
+            using (DbCommand cmd = factory.CreateCommand())
             {
-                conn.ConnectionString = connection_string;
-                using (DbCommand cmd = factory.CreateCommand())
+                prepare(cmd, conn, null, sql, args);
+                DbDataReader reader = cmd.ExecuteReader();
+                cmd.Parameters.Clear();
+                return reader;
+            }
+        }
+
+        public object one(string sql)
+        {
+            using (DbCommand cmd = factory.CreateCommand())
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = sql;
+
+                var obj = cmd.ExecuteScalar();
+                if (obj == null)
                 {
-                    prepare(cmd, conn, null, sql, args);
-                    DbDataReader reader = cmd.ExecuteReader();
-                    cmd.Parameters.Clear();
-                    return reader;
+                    return null;
+                }
+                else
+                {
+                    return obj;
                 }
             }
         }

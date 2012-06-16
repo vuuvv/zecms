@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.Common;
 using System.Reflection;
-using dbutils;
+using vuuvv.db;
 
 namespace models
 {
@@ -22,18 +22,18 @@ namespace models
 
         public int id { get; set; }
 
-        protected static DbHelperOleDb db
+        protected static DBHelper db
         {
             get
             {
-                return DbHelperOleDb.get();
+                return DBHelper.get();
             }
         }
 
-        protected static object fetch_data_from_reader(OleDbDataReader reader, Type t)
+        protected static Model fetch_data_from_reader(DbDataReader reader, Type t)
         {
             Assembly assembly = Assembly.GetAssembly(t);
-            object model = assembly.CreateInstance(t.FullName);
+            Model model = (Model)assembly.CreateInstance(t.FullName);
 
             // set id
             t.GetProperty("id").SetValue(model, reader.GetValue(reader.GetOrdinal("id")), null);
@@ -46,20 +46,35 @@ namespace models
             return model;
         }
 
-        protected static object single_from_reader(OleDbDataReader reader, Type t)
+        protected static Model single_from_reader(DbDataReader reader, Type t)
         {
             reader.Read();
-            return fetch_data_from_reader(reader, t);
+            return (Model)DBHelper.fetch_object(reader, t);
         }
 
-        protected static List<object> list_from_reader(OleDbDataReader reader, Type t)
+        protected static List<Model> list_from_reader(DbDataReader reader, Type t)
         {
-            List<object> objs = new List<object>();
+            List<Model> objs = new List<Model>();
             while (reader.Read())
             {
-                objs.Add(fetch_data_from_reader(reader, t));
             }
             return objs;
+        }
+
+        public Model get(int id, Type t)
+        {
+            string sql = "SELECT * FROM pages where id=@id";
+            DbDataReader reader = db.query(sql, new Dictionary<string, object> {
+                {"@id", Convert.ToInt32(id)},
+            });
+            if (reader.HasRows)
+            {
+                return (Page)single_from_reader(reader, typeof(Page));
+            }
+            else
+            {
+                return null;
+            }
         }
 
         protected void insert()
@@ -77,7 +92,7 @@ namespace models
             {
                 args.Add(string.Format("@{0}",col), t.GetProperty(col).GetValue(this, null));
             }
-            id = db.ExecuteInsert(sql, args);
+            id = db.insert(table, sql, args);
         }
 
         protected void update()
@@ -96,13 +111,13 @@ namespace models
             {
                 args.Add(string.Format("@{0}",col), t.GetProperty(col).GetValue(this, null));
             }
-            db.ExecuteSql(sql, args);
+            db.execute(sql, args);
         }
 
         protected static List<object> find(Dictionary<string, object> args, Type t)
         {
             string sql = string.Format("SELECT * FROM {0} WHERE {1}");
-            OleDbDataReader reader = db.ExecuteReader(sql, args);
+            DbDataReader reader = db.query(sql, args);
             return list_from_reader(reader, t);
         }
 

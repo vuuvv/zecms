@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data.Common;
 
 namespace vuuvv.db
 {
-    class Model
+    public class Model
     {
         public static string table = "";
 
@@ -32,8 +33,8 @@ namespace vuuvv.db
             string sql = string.Format(
                 "INSERT INTO {0} ({1}) VALUES ({2})",
                 table,
-                DBHelper.join_to_format(fields.Keys.ToArray(), "`{0}`"),
-                DBHelper.join_to_format(fields.Keys.ToArray(), "@{0}")
+                ModelHelper.join_to_format(fields.Keys.ToArray(), "`{0}`"),
+                ModelHelper.join_to_format(fields.Keys.ToArray(), "@{0}")
             );
 
             id = db.insert(table, sql, convert_to_parameters(fields.Keys.ToArray()));
@@ -47,7 +48,7 @@ namespace vuuvv.db
             string sql = string.Format(
                 "UPDATE {0} SET {1} WHERE id={2}",
                 table,
-                DBHelper.join_to_format(fields.Keys.ToArray(), "`{0}`=@{0}"),
+                ModelHelper.join_to_format(fields.Keys.ToArray(), "`{0}`=@{0}"),
                 id
             );
 

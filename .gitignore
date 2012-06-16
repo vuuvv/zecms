@@ -1,6 +1,7 @@
 *.pyc
 *.pyo
 *.ldb
+Thumbs.db
 .DS_Store
 .coverage
 .idea/

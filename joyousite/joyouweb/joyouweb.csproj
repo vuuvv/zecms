@@ -33,7 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -702,10 +701,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\db\db.csproj">
-      <Project>{AB06F123-E368-4922-BFA6-0A0C1F915107}</Project>
-      <Name>db</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ElFinder.Connector\ElFinder.Connector.csproj">
       <Project>{ED8DC721-B471-4082-BB7E-4F4972C268C8}</Project>
       <Name>ElFinder.Connector</Name>

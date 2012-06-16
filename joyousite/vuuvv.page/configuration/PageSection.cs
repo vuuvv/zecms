@@ -79,7 +79,7 @@ namespace vuuvv.page.configuration
         {
             get
             {
-                return this["Ignore"] != "false";
+                return (string)this["Ignore"] != "false";
             }
             set
             {
@@ -113,7 +113,7 @@ namespace vuuvv.page.configuration
             }
         }
 
-        new public RouteElement this[int index]
+        public RouteElement this[int index]
         {
             get
             {

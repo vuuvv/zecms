@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.Common;
+using vuuvv.db;
 
 namespace models
 {
@@ -73,7 +74,7 @@ namespace models
                 if (_children != null)
                     return _children;
                 string sql = string.Format("SELECT * FROM pages WHERE lft > {0} AND rgt < {1} AND tree_id = {2} ORDER BY lft ASC", lft, rgt, tree_id);
-                OleDbDataReader reader = db.ExecuteReader(sql);
+                DbDataReader reader = db.query(sql);
                 _children = pages_from_reader(reader);
                 return _children;
             }
@@ -84,7 +85,7 @@ namespace models
             get
             {
                 string sql = "SELECT * FROM pages ORDER BY tree_id ASC, lft ASC";
-                OleDbDataReader reader = db.ExecuteReader(sql);
+                DbDataReader reader = db.query(sql);
                 return pages_from_reader(reader);
             }
         }
@@ -96,7 +97,7 @@ namespace models
                 if (_ancestors != null)
                     return _ancestors;
                 string sql = string.Format("SELECT * FROM pages WHERE lft < {0} AND rgt > {1} AND tree_id ={2} ORDER BY lft ASC", lft, rgt, tree_id);
-                OleDbDataReader reader = db.ExecuteReader(sql);
+                DbDataReader reader = db.query(sql);
                 _ancestors = pages_from_reader(reader);
                 return _ancestors;
             }
@@ -105,7 +106,7 @@ namespace models
         public static Page get(object id) 
         {
             string sql = "SELECT * FROM pages where id=@id";
-            OleDbDataReader reader = db.ExecuteReader(sql, new Dictionary<string, object> {
+            DbDataReader reader = db.query(sql, new Dictionary<string, object> {
                 {"@id", Convert.ToInt32(id)},
             });
             if (reader.HasRows)
@@ -121,7 +122,7 @@ namespace models
         public static Page from_slug(string slug)
         {
             string sql = "SELECT * FROM pages where slug=@slug";
-            OleDbDataReader reader = db.ExecuteReader(sql, new Dictionary<string, object> {
+            DbDataReader reader = db.query(sql, new Dictionary<string, object> {
                 {"@slug", slug},
             });
             if (reader.HasRows)
@@ -147,7 +148,7 @@ namespace models
             {
                 args.Add(string.Format("@{0}",col), args[col]);
             }
-            id = db.ExecuteSql(sql, args);
+            db.execute(sql, args);
         }
 
         public static List<Page> find(Dictionary<string, object> args)
@@ -194,7 +195,7 @@ namespace models
         {
             int tree_width = rgt - lft + 1;
             string sql = string.Format("DELETE FROM pages WHERE `lft` >= {0} AND `rgt` <= {1} AND `tree_id` = {2}", lft, rgt, tree_id);
-            db.ExecuteSql(sql);
+            db.execute(sql);
             rm_space(rgt, tree_width, tree_id);
         }
 
@@ -260,25 +261,25 @@ namespace models
         {
             string sql = string.Format("UPDATE {0} SET `lft`=`lft`+{1},`rgt`=`rgt`+{1},`level`=`level`+{2}, `tree_id`={3} WHERE `lft` >= {4} AND `rgt` <={5} AND `tree_id`={6}",
                 table, delta, delta_level, t_tree_id, c_lft, c_rgt, tree_id);
-            db.ExecuteSql(sql);
+            db.execute(sql);
             sql = string.Format("UPDATE {0} SET `parent_id`={1} WHERE `id`={2}", table, parent_id, id);
-            db.ExecuteSql(sql);
+            db.execute(sql);
         }
 
         private void add_space(int rgt, int size, int tree_id)
         {
             string sql = string.Format("UPDATE {0} SET `lft`=`lft`+{1} WHERE `lft` >= {2} AND `tree_id`={3}", table, size, rgt, tree_id);
-            db.ExecuteSql(sql);
+            db.execute(sql);
             sql = string.Format("UPDATE {0} SET `rgt`=`rgt`+{1} WHERE `rgt` >= {2} AND `tree_id`={3}", table, size, rgt, tree_id);
-            db.ExecuteSql(sql);
+            db.execute(sql);
         }
 
         private void rm_space(int rgt, int size, int tree_id)
         {
             string sql = string.Format("UPDATE {0} SET `lft`=`lft`-{1} WHERE `lft` >= {2} AND `tree_id`={3}", table, size, rgt, tree_id);
-            db.ExecuteSql(sql);
+            db.execute(sql);
             sql = string.Format("UPDATE {0} SET `rgt`=`rgt`-{1} WHERE `rgt` >= {2} AND `tree_id`={3}", table, size, rgt, tree_id);
-            db.ExecuteSql(sql);
+            db.execute(sql);
         }
 
         private List<string> sql_add_space(int rgt, int size, int tree_id)
@@ -306,12 +307,12 @@ namespace models
             return sqls;
         }
 
-        public static List<Page> pages_from_reader(OleDbDataReader reader)
+        public static List<Page> pages_from_reader(DbDataReader reader)
         {
             List<Page> pages = new List<Page>();
             while (reader.Read())
             {
-                Page page = (Page)fetch_data_from_reader(reader, typeof(Page));
+                Page page = (Page)DBHelper.fetch_object(reader, typeof(Page));
                 pages.Add(page);
             }
             return pages;
@@ -355,7 +356,7 @@ namespace models
         private static int next_tree_id() 
         {
             string sql = "SELECT MAX(`tree_id`) FROM pages";
-            var id = db.GetSingle(sql);
+            var id = db.one(sql);
             if (id == null)
                 return 0;
             return (int)id + 1;
