@@ -5,7 +5,7 @@ using System.Text;
 
 namespace vuuvv.db
 {
-    public abstract class TreeModel : Model
+    public class TreeModel : Model
     {
         public new static Dictionary<string, Field> fields = new Dictionary<string, Field>()
         {   
@@ -65,10 +65,6 @@ namespace vuuvv.db
             {
                 return rgt - lft == 1;
             }
-        }
-
-        public List<TreeModel> children
-        {
         }
     }
 }

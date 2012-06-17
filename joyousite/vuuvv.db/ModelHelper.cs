@@ -18,6 +18,7 @@ namespace vuuvv.db
         }
 
         public static T get<T>(int id)
+            where T : Model
         {
             string table = (string)typeof(T).GetField("table").GetValue(null);
             string sql = string.Format("SELECT * FROM {0} where id=@id", table);
@@ -27,7 +28,7 @@ namespace vuuvv.db
             if (reader.HasRows)
             {
                 reader.Read();
-                return ModelHelper.fetch_object(reader, t);
+                return ModelHelper.fetch_object<T>(reader);
             }
             else
             {
@@ -36,6 +37,7 @@ namespace vuuvv.db
         }
 
         public static T fetch_object<T>(DbDataReader reader)
+            where T : Model
         {
             Type t = typeof(T);
             Assembly assembly = Assembly.GetAssembly(t);
@@ -53,12 +55,14 @@ namespace vuuvv.db
         }
 
         public static T single<T>(DbDataReader reader)
+            where T : Model
         {
             reader.Read();
             return fetch_object<T>(reader);
         }
 
         public static List<T> list<T>(DbDataReader reader)
+            where T: Model
         {
             List<T> models = new List<T>();
             while (reader.Read())

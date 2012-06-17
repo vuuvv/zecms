@@ -49,7 +49,8 @@ namespace models
         protected static Model single_from_reader(DbDataReader reader, Type t)
         {
             reader.Read();
-            return (Model)DBHelper.fetch_object(reader, t);
+            return null;
+            //return (Model)ModelHelper.fetch_object<vuuvv.db.Model>(reader);
         }
 
         protected static List<Model> list_from_reader(DbDataReader reader, Type t)
@@ -118,7 +119,8 @@ namespace models
         {
             string sql = string.Format("SELECT * FROM {0} WHERE {1}");
             DbDataReader reader = db.query(sql, args);
-            return list_from_reader(reader, t);
+            return null;
+            //return list_from_reader(reader, t);
         }
 
         protected static string join_to_format(string[] cols, string format)
