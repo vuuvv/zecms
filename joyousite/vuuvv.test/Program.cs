@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Linq;
-using System.Data.Linq.Mapping;
 using System.Text;
 using System.Data.SQLite;
+
+using vuuvv.db;
 
 namespace vuuvv.test
 {
@@ -23,10 +23,10 @@ namespace vuuvv.test
         }
     }
 
-    [Table(Name = "test")]
+    [Table(name = "test")]
     public class test
     {
-        [Column(IsPrimaryKey = true, IsDbGenerated = true)]
+        [Column]
         public int id;
         [Column]
         public string name;

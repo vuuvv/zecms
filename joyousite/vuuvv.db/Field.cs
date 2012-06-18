@@ -7,8 +7,6 @@ namespace vuuvv.db
 {
     public abstract class Field
     {
-        public string name { get; set; }
-
         public abstract object to_object(object value);
 
         public abstract string to_json(object value);
@@ -22,12 +20,24 @@ namespace vuuvv.db
 
     public class StringField : Field
     {
-        public override object to_object(object value)
+        public int length { get; set; }
+
+        public StringField()
+        {
+            this.length = 50;
+        }
+
+        public StringField(int length)
+        {
+            this.length = length;
+        }
+
+        public virtual object to_object(object value)
         {
             return value.ToString();
         }
 
-        public override string to_json(object value)
+        public virtual string to_json(object value)
         {
             return string.Format("\"{0}\"", value.ToString());
         }

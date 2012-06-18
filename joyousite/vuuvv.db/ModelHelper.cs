@@ -9,6 +9,13 @@ namespace vuuvv.db
 {
     public static class ModelHelper
     {
+        public static Dictionary<Type, Field> default_types = new Dictionary<Type, Field>
+        {
+            { typeof(int), new IntegerField() },
+            { typeof(string), new StringField() },
+            { typeof(bool), new BooleanField() }
+        };
+
         public static DBHelper db
         {
             get
@@ -57,7 +64,13 @@ namespace vuuvv.db
             {
                 Column col = (Column)Attribute.GetCustomAttribute(p, typeof(Column));
                 if (col != null)
+                {
+                    if (col.field == null)
+                    {
+                        col.field = default_types[p.PropertyType];
+                    }
                     columns.Add(col);
+                }
             }
             return columns.ToArray();
         }

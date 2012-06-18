@@ -100,7 +100,8 @@ namespace vuuvv.db
                 prepare(cmd, conn, null, sql, args);
                 cmd.ExecuteNonQuery();
                 cmd.Parameters.Clear();
-                cmd.CommandText = "SELECT @@IDENTITY FROM " + table;
+                // Access: cmd.CommandText = "SELECT @@IDENTITY FROM " + table;
+                cmd.CommandText = "SELECT last_insert_rowid() FROM " + table;
                 DbDataReader reader = cmd.ExecuteReader();
                 reader.Read();
                 return (int)reader.GetValue(0);

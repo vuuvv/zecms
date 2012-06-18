@@ -6,7 +6,7 @@ using System.Data.Common;
 
 namespace vuuvv.db
 {
-    public class Model
+    public abstract class Model
     {
         public static DBHelper db
         {
@@ -18,6 +18,14 @@ namespace vuuvv.db
 
         [Column]
         public int id { get; set; }
+
+        public void save()
+        {
+            pre_save();
+            insert();
+        }
+
+        protected void pre_save() {}
 
         protected void insert()
         {

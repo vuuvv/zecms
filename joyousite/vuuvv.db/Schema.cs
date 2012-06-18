@@ -9,7 +9,7 @@ namespace vuuvv.db
         public string name { get; set; }
     }
 
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class Table : Schema 
     {
         public Column[] columns;
@@ -18,6 +18,6 @@ namespace vuuvv.db
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     public class Column : Schema
     {
-        public DbType dbtype { get; set;}
+        public Field field;
     }
 }
