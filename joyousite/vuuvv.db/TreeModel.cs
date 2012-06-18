@@ -1,33 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace vuuvv.db
 {
     public class TreeModel : Model
     {
-        public new static Dictionary<string, Field> fields = new Dictionary<string, Field>()
-        {   
-            {"parent_id",  new IntegerField()},
-            {"tree_id", new IntegerField()},
-            {"level", new IntegerField()},
-            {"lft", new IntegerField()},
-            {"rgt", new IntegerField()}
-        };
-
-        static TreeModel()
-        {
-            foreach (var item in Model.fields)
-            {
-                fields[item.Key] = item.Value;
-            }
-        }
-
+        [Column]
         public int parent_id { get; set; }
+        [Column]
         public int tree_id { get; set; }
+        [Column]
         public int level { get; set; }
+        [Column]
         public int lft { get; set; }
+        [Column]
         public int rgt { get; set; }
 
         private TreeModel _parent;

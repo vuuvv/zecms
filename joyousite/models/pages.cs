@@ -312,7 +312,8 @@ namespace models
             List<Page> pages = new List<Page>();
             while (reader.Read())
             {
-                Page page = (Page)DBHelper.fetch_object(reader, typeof(Page));
+                Page page = new Page();
+                //Page page = (Page)DBHelper.fetch_object(reader, typeof(Page));
                 pages.Add(page);
             }
             return pages;

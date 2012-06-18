@@ -5,24 +5,18 @@ using System.Text;
 
 namespace vuuvv.db
 {
+    [Table(name = "pages")]
     public class Page : TreeModel
     {
-        public new static string table = "pages";
-        public new static Dictionary<string, Field> fields = new Dictionary<string, Field>()
-        {
-            {"slug", new StringField()},
-            {"title", new StringField()},
-            {"content", new StringField()},
-            {"is_published", new BooleanField()},
-            {"in_navigation", new IntegerField()},
-        };
-
-        static Page()
-        {
-            foreach (var item in TreeModel.fields)
-            {
-                fields[item.Key] = item.Value;
-            }
-        }
+        [Column]
+        public string slug { get; set; }
+        [Column]
+        public string title { get; set; }
+        [Column]
+        public string content { get; set; }
+        [Column]
+        public bool is_published { get; set; }
+        [Column]
+        public int in_navigation { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SQLite;
 
 namespace joyouweb
 {
@@ -11,6 +12,7 @@ namespace joyouweb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            /*
             string t = vuuvv.db.TreeModel.table;
             var db = vuuvv.db.DBHelper.get();
             int id = db.insert("test", "INSERT INTO test (name, age) VALUES(@name, @age)", new Dictionary<string, object>()
@@ -19,6 +21,8 @@ namespace joyouweb
                 {"@age", 38},
             });
             Response.Write(id);
+            */
+            vuuvv.db.ModelHelper.get<vuuvv.db.Page>(1);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Text;
-using System.Data.OleDb;
+using System.Data.SQLite;
 
 namespace vuuvv.test
 {
@@ -12,8 +12,8 @@ namespace vuuvv.test
     {
         static void Main(string[] args)
         {
-            string cstr = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=E:\\code\\joyousite\\joyousite\\joyouweb\\App_Data\\joyou.mdb";
-            DataContext db = new DataContext(new OleDbConnection(cstr));
+            string cstr = @"Data Source=F:\\code\\joyousite\\joyousite\\joyouweb\\App_Data\\joyou.db";
+            DataContext db = new DataContext(new SQLiteConnection(cstr));
             Table<test> tbl = db.GetTable<test>();
             test t = new test();
             t.name = "zheshishenme";
