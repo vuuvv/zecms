@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Data.SQLite;
+using vuuvv.db;
 
 namespace joyouweb
 {
@@ -22,7 +22,20 @@ namespace joyouweb
             });
             Response.Write(id);
             */
-            vuuvv.db.ModelHelper.get<vuuvv.db.Page>(1);
+            Test t = new Test();
+            t.name = "Jack";
+            t.age = 18;
+            t.save();
+            Test t1 = ModelHelper.get<Test>(t.id);
         }
+    }
+
+    [Table(name = "test")]
+    class Test : Model
+    {
+        [Column]
+        public string name { get; set; }
+        [Column]
+        public int age { get; set; }
     }
 }

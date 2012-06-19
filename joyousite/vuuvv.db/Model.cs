@@ -19,40 +19,49 @@ namespace vuuvv.db
         [Column]
         public int id { get; set; }
 
-        public void save()
+        private Table _table;
+        public Table table
         {
-            pre_save();
-            insert();
+            get
+            {
+                if (_table != null)
+                    return _table;
+                _table = ModelHelper.metadata[this.GetType()];
+                if (_table == null)
+                    throw new MemberAccessException(string.Format("Can't find table of Model {0}", this.GetType().FullName));
+                return _table;
+            }
         }
 
-        protected void pre_save() {}
-
-        protected void insert()
+        public void insert()
         {
-            Type t = this.GetType();
-            Table table = ModelHelper.metadata[t];
+            var columns = from col in table.columns where col.name != "id" select col.name;
             string sql = string.Format(
                 "INSERT INTO {0} ({1}) VALUES ({2})",
                 table.name,
-                ModelHelper.join_to_format(table.columns, "`{0}`"),
-                ModelHelper.join_to_format(table.columns, "@{0}")
+                ModelHelper.join_to_format(columns, "`{0}`"),
+                ModelHelper.join_to_format(columns, "@{0}")
             );
 
             id = db.insert(table.name, sql, convert_to_parameters(table.columns));
         }
 
-        protected void update()
+        public void update()
         {
-            Type t = this.GetType();
-            Table table = ModelHelper.metadata[t];
             string sql = string.Format(
                 "UPDATE {0} SET {1} WHERE id={2}",
-                table,
+                table.name,
                 ModelHelper.join_to_format(table.columns, "`{0}`=@{0}"),
                 id
             );
 
             db.execute(sql, convert_to_parameters(table.columns));
+        }
+
+        public void delete()
+        {
+            string sql = string.Format("DELETE FROM {0} WHERE id={1}", table.name, id);
+            db.execute(sql);
         }
 
         protected Dictionary<string, object> convert_to_parameters(string[] columns)
@@ -72,7 +81,7 @@ namespace vuuvv.db
             Type t = this.GetType();
             foreach (var col in columns)
             {
-                args.Add(string.Format("@{0}", col), t.GetProperty(col.name).GetValue(this, null));
+                args.Add(string.Format("@{0}", col.name), t.GetProperty(col.name).GetValue(this, null));
             }
             return args;
         }

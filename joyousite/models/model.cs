@@ -93,7 +93,7 @@ namespace models
             {
                 args.Add(string.Format("@{0}",col), t.GetProperty(col).GetValue(this, null));
             }
-            id = db.insert(table, sql, args);
+            //id = db.insert(table, sql, args);
         }
 
         protected void update()

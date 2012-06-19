@@ -12,6 +12,7 @@ namespace vuuvv.test
     {
         static void Main(string[] args)
         {
+            /*
             string cstr = @"Data Source=F:\\code\\joyousite\\joyousite\\joyouweb\\App_Data\\joyou.db";
             DataContext db = new DataContext(new SQLiteConnection(cstr));
             Table<test> tbl = db.GetTable<test>();
@@ -20,6 +21,7 @@ namespace vuuvv.test
             t.age = 1001;
             tbl.InsertOnSubmit(t);
             db.SubmitChanges();
+            */
         }
     }
 

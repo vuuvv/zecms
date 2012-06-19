@@ -12,6 +12,7 @@ namespace vuuvv.db
         public static Dictionary<Type, Field> default_types = new Dictionary<Type, Field>
         {
             { typeof(int), new IntegerField() },
+            { typeof(long), new IntegerField() },
             { typeof(string), new StringField() },
             { typeof(bool), new BooleanField() }
         };
@@ -69,6 +70,10 @@ namespace vuuvv.db
                     {
                         col.field = default_types[p.PropertyType];
                     }
+                    if (col.name == null)
+                    {
+                        col.name = p.Name;
+                    }
                     columns.Add(col);
                 }
             }
@@ -104,14 +109,26 @@ namespace vuuvv.db
             T model = (T)assembly.CreateInstance(t.FullName);
 
             // set id
-            t.GetProperty("id").SetValue(model, reader["id"], null);
+            set_property_from_reader(model, "id", reader);
 
-            Dictionary<string, Field> fields = (Dictionary<string, Field>)t.GetField("fields").GetValue(null);
             foreach (var col in table.columns)
             {
-                t.GetProperty(col.name).SetValue(model, reader[col.name], null);
+                set_property_from_reader(model, col.name, reader);
             }
             return model;
+        }
+
+        public static void set_property_from_reader(object obj, string t_name, DbDataReader reader, string r_name) 
+        {
+            Type t = obj.GetType();
+            PropertyInfo prop = t.GetProperty(t_name);
+            Type desired = prop.PropertyType;
+            prop.SetValue(obj, DBHelper.convert_to(reader[r_name], desired), null);
+        }
+
+        public static void set_property_from_reader(object obj, string name, DbDataReader reader)
+        {
+            set_property_from_reader(obj, name, reader, name);
         }
 
         public static T single<T>(DbDataReader reader)
@@ -134,12 +151,7 @@ namespace vuuvv.db
 
         public static string join_to_format(string[] cols, string format)
         {
-            List<string> rets = new List<string>();
-            foreach (string col in cols)
-            {
-                rets.Add(string.Format(format, col));
-            }
-            return string.Join(",", rets.ToArray());
+            return string.Join(",", cols);
         }
 
         public static string join_to_format(Column[] cols, string format)
@@ -151,5 +163,12 @@ namespace vuuvv.db
             }
             return string.Join(",", rets.ToArray());
         }
+
+        public static string join_to_format(IEnumerable<string> cols, string format)
+        {
+            cols = from col in cols select string.Format(format, col);
+            return string.Join(",", cols.ToArray());
+        }
+
     }
 }

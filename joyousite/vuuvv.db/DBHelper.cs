@@ -18,9 +18,8 @@ namespace vuuvv.db
         public static DBHelper create()
         {
             var cstr = ConfigurationManager.ConnectionStrings["dbconnection"];
-            string[] parts = cstr.ConnectionString.Split(';');
-            string path = HttpContext.Current.Server.MapPath(parts[1]);
-            return new DBHelper(string.Format("Provider={0};Data Source={1};", parts[0], path), cstr.ProviderName);
+            string path = HttpContext.Current.Server.MapPath(cstr.ConnectionString);
+            return new DBHelper(string.Format("Data Source={0};", path), cstr.ProviderName);
         }
 
         public static DBHelper get()
@@ -104,7 +103,7 @@ namespace vuuvv.db
                 cmd.CommandText = "SELECT last_insert_rowid() FROM " + table;
                 DbDataReader reader = cmd.ExecuteReader();
                 reader.Read();
-                return (int)reader.GetValue(0);
+                return convert_to<int>(reader[0]);
             }
         }
 
@@ -131,7 +130,7 @@ namespace vuuvv.db
             }
         }
 
-        public object one(string sql)
+        public object one(string sql, Type t)
         {
             using (DbCommand cmd = factory.CreateCommand())
             {
@@ -145,9 +144,14 @@ namespace vuuvv.db
                 }
                 else
                 {
-                    return obj;
+                    return convert_to(obj, t);
                 }
             }
+        }
+
+        public T one<T>(string sql)
+        {
+            return (T)one(sql, typeof(T));
         }
 
         private void prepare(DbCommand cmd, DbConnection conn, DbTransaction trans, string sql, Dictionary<string, object> parameters)
@@ -169,6 +173,21 @@ namespace vuuvv.db
                     cmd.Parameters.Add(param);
                 }
             }
+        }
+
+        public static object convert_to(object obj, Type t)
+        {
+            Type ot = obj.GetType();
+            if (ot == t)
+                return obj;
+            string method_name = string.Format("To{0}", t.Name);
+            MethodInfo method = typeof(Convert).GetMethod(method_name, new[] { ot });
+            return method.Invoke(null, new[] { obj });
+        }
+
+        public static T convert_to<T>(object obj)
+        {
+            return (T)convert_to(obj, typeof(T));
         }
     }
 }

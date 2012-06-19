@@ -32,12 +32,12 @@ namespace vuuvv.db
             this.length = length;
         }
 
-        public virtual object to_object(object value)
+        public override object to_object(object value)
         {
             return value.ToString();
         }
 
-        public virtual string to_json(object value)
+        public override string to_json(object value)
         {
             return string.Format("\"{0}\"", value.ToString());
         }
