@@ -80,6 +80,63 @@ namespace vuuvv.db
             pre_insert();
             base.insert();
         }
+        public void move_to(TreeModel target, Position position)
+        {
+            TreeModel parent = null;
+            int t_lft = 1;
+            int tree_width = rgt - lft + 1;
+            int delta = t_lft - lft;
+            int delta_level = -level;
+            int t_parent_id = -1;
+            int c_lft = lft;
+            int c_rgt = rgt;
+            int t_tree_id;
+            if (target == null || (target.parent_id == -1 && (position == Position.left || position == Position.right)))
+            {
+                t_tree_id = next_tree_id();
+            }
+            else
+            {
+                // here make sure the parent not be null
+                switch (position)
+                {
+                    case Position.first_child:
+                        parent = target;
+                        t_lft = parent.lft + 1;
+                        break;
+                    case Position.last_child:
+                        parent = target;
+                        t_lft = parent.rgt;
+                        break;
+                    case Position.left:
+                        parent = target.parent;
+                        t_lft = target.lft;
+                        break;
+                    case Position.right:
+                        parent = target.parent;
+                        t_lft = target.rgt + 1;
+                        break;
+                }
+                delta = t_lft - lft;
+                if (tree_id == target.tree_id && t_lft < lft)
+                {
+                    delta = t_lft - lft - tree_width;
+                    c_lft = lft + tree_width;
+                    c_rgt = rgt + tree_width;
+                }
+                t_tree_id = target.tree_id;
+                delta_level = parent.level + 1 - level;
+                t_parent_id = parent.id;
+                add_space(t_lft, tree_width, t_tree_id);
+            }
+            tune(t_tree_id, delta, delta_level, c_lft, c_rgt, t_parent_id);
+            rm_space(c_rgt, tree_width, tree_id);
+        }
+
+        public void move_to(TreeModel tree)
+        {
+            move_to(tree, Position.last_child);
+        }
 
         private void tune(int t_tree_id, int delta, int delta_level, int c_lft, int c_rgt, int parent_id)
         {

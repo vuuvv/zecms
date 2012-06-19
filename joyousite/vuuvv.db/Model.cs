@@ -33,7 +33,7 @@ namespace vuuvv.db
             }
         }
 
-        public void insert()
+        public virtual void insert()
         {
             var columns = from col in table.columns where col.name != "id" select col.name;
             string sql = string.Format(
@@ -46,7 +46,7 @@ namespace vuuvv.db
             id = db.insert(table.name, sql, convert_to_parameters(table.columns));
         }
 
-        public void update()
+        public virtual void update()
         {
             string sql = string.Format(
                 "UPDATE {0} SET {1} WHERE id={2}",
@@ -58,7 +58,7 @@ namespace vuuvv.db
             db.execute(sql, convert_to_parameters(table.columns));
         }
 
-        public void delete()
+        public virtual void delete()
         {
             string sql = string.Format("DELETE FROM {0} WHERE id={1}", table.name, id);
             db.execute(sql);
