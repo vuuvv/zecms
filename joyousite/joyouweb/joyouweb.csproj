@@ -35,8 +35,12 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86" />
-    <Reference Include="System.Data.SQLite.Linq, Version=2.0.38.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
@@ -49,7 +53,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="About.aspx" />
     <Content Include="Account\ChangePassword.aspx" />
     <Content Include="Account\ChangePasswordSuccess.aspx" />
     <Content Include="Account\Login.aspx" />
@@ -59,10 +62,10 @@
     <Content Include="admin\pages.aspx" />
     <Content Include="allin\index.aspx" />
     <Content Include="allin\template.aspx" />
+    <Content Include="App_Data\joyou.mdb" />
     <Content Include="App_Data\joyou.sdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\joyou.mdb" />
     <Content Include="controls\pageform.ascx" />
     <Content Include="controls\pagetree.ascx" />
     <Content Include="controls\ztree.ascx" />
@@ -583,13 +586,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.aspx.cs">
-      <DependentUpon>About.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="About.aspx.designer.cs">
-      <DependentUpon>About.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Account\ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -745,6 +741,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="joyou.Master" />
+    <None Include="App_Data\joyou.db" />
     <None Include="Scripts\elfinder\Changelog" />
     <None Include="Scripts\elfinder\connectors\php\connector.php" />
     <None Include="Scripts\elfinder\connectors\php\elFinder.class.php" />

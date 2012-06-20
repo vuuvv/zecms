@@ -356,11 +356,14 @@ namespace models
 
         private static int next_tree_id() 
         {
+            /*
             string sql = "SELECT MAX(`tree_id`) FROM pages";
             var id = db.one(sql);
             if (id == null)
                 return 0;
             return (int)id + 1;
+            */
+            return 0;
         }
     }
 }

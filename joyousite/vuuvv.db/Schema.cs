@@ -10,13 +10,13 @@ namespace vuuvv.db
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class Table : Schema 
+    public class MyTable : Schema 
     {
-        public Column[] columns;
+        public MyColumn[] columns;
     }
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-    public class Column : Schema
+    public class MyColumn : Schema
     {
         public Field field;
     }

@@ -25,18 +25,18 @@ namespace vuuvv.db
             }
         }
 
-        private static Dictionary<Type, Table> _metadata;
+        private static Dictionary<Type, MyTable> _metadata;
 
-        public static Dictionary<Type, Table> metadata
+        public static Dictionary<Type, MyTable> metadata
         {
             get
             {
                 if (_metadata == null)
                 {
-                    _metadata = new Dictionary<Type, Table>();
+                    _metadata = new Dictionary<Type, MyTable>();
                     foreach (Type t in get_types_with_attribute<Table>(false)) 
                     {
-                        Table table = (Table)Attribute.GetCustomAttribute(t, typeof(Table));
+                        MyTable table = (MyTable)Attribute.GetCustomAttribute(t, typeof(MyTable));
                         table.columns = get_columns(t);
                         _metadata.Add(t, table);
                     }
@@ -57,13 +57,13 @@ namespace vuuvv.db
             }
         }
 
-        public static Column[] get_columns(Type t)
+        public static MyColumn[] get_columns(Type t)
         {
             PropertyInfo[] properties = t.GetProperties();
-            List<Column> columns = new List<Column>();
+            List<MyColumn> columns = new List<MyColumn>();
             foreach (var p in properties) 
             {
-                Column col = (Column)Attribute.GetCustomAttribute(p, typeof(Column));
+                MyColumn col = (MyColumn)Attribute.GetCustomAttribute(p, typeof(MyColumn));
                 if (col != null)
                 {
                     if (col.field == null)
@@ -81,10 +81,10 @@ namespace vuuvv.db
         }
 
         public static T get<T>(int id)
-            where T : Model
+            where T : MyModel
         {
             Type t = typeof(T);
-            Table table = metadata[t];
+            MyTable table = metadata[t];
             string sql = string.Format("SELECT * FROM {0} where id=@id", table.name);
             var reader = db.query(sql, new Dictionary<string, object> {
                 {"@id", id},
@@ -101,10 +101,10 @@ namespace vuuvv.db
         }
 
         public static T fetch_object<T>(DbDataReader reader)
-            where T : Model
+            where T : MyModel
         {
             Type t = typeof(T);
-            Table table = metadata[t];
+            MyTable table = metadata[t];
             Assembly assembly = Assembly.GetAssembly(t);
             T model = (T)assembly.CreateInstance(t.FullName);
 
@@ -132,14 +132,14 @@ namespace vuuvv.db
         }
 
         public static T single<T>(DbDataReader reader)
-            where T : Model
+            where T : MyModel
         {
             reader.Read();
             return fetch_object<T>(reader);
         }
 
         public static List<T> list<T>(DbDataReader reader)
-            where T: Model
+            where T: MyModel
         {
             List<T> models = new List<T>();
             while (reader.Read())
@@ -154,7 +154,7 @@ namespace vuuvv.db
             return string.Join(",", cols);
         }
 
-        public static string join_to_format(Column[] cols, string format)
+        public static string join_to_format(MyColumn[] cols, string format)
         {
             List<string> rets = new List<string>();
             foreach (var col in cols)

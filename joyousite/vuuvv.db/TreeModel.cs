@@ -4,17 +4,17 @@ using System.Collections.Generic;
 namespace vuuvv.db
 {
     public enum Position { first_child, last_child, left, right };
-    public abstract class TreeModel : Model
+    public abstract class TreeModel : MyModel
     {
-        [Column]
+        [MyColumn]
         public int parent_id { get; set; }
-        [Column]
+        [MyColumn]
         public int tree_id { get; set; }
-        [Column]
+        [MyColumn]
         public int level { get; set; }
-        [Column]
+        [MyColumn]
         public int lft { get; set; }
-        [Column]
+        [MyColumn]
         public int rgt { get; set; }
 
         private TreeModel _parent;

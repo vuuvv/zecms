@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Data.SQLite;
-using vuuvv.db;
+using System.Data.Linq;
+using System.Data.Linq.Mapping;
+using System.Data;
+using System.Data.SqlServerCe;
 
 namespace joyouweb
 {
@@ -22,20 +24,46 @@ namespace joyouweb
             });
             Response.Write(id);
             */
+            /*
             Test t = new Test();
             t.name = "Jack";
             t.age = 18;
-            t.save();
+            t.insert();
             Test t1 = ModelHelper.get<Test>(t.id);
+            */
+            AppDomain.CurrentDomain.SetData("SQLServerCompactEditionUnderWebHosting", true);
+            var cstr = string.Format("Data Source={0};Persist Security Info=False;", Server.MapPath("~/App_Data/joyou.sdf"));
+            try
+            {
+                DataContext db = new DataContext(new SqlCeConnection(cstr));
+                var page = new Page();
+                var table = db.GetTable<Page>();
+                table.InsertOnSubmit(page);
+                db.SubmitChanges();
+                var tests = from c in table select c;
+                foreach (var tt in tests)
+                {
+                    Response.Write(tt.title);
+                }
+            }
+            catch (Exception err)
+            {
+                Response.Write(cstr);
+                Response.Write(err.Message);
+            }
+            //DataContext db = new DataContext(new SqlCeConnection(string.Format("Data Source={0}", Server.MapPath("~/App_Data/joyou.sdf"))));
         }
     }
 
-    [Table(name = "test")]
-    class Test : Model
+    class Page : vuuvv.db.Model, vuuvv.db.TreeModel<Page>
     {
-        [Column]
-        public string name { get; set; }
-        [Column]
-        public int age { get; set; }
+        [Column(CanBeNull=false)]
+        public string title { get; set; }
+
+        [Column(CanBeNull=false)]
+        public string slug { get; set; }
+
+        [Column(CanBeNull=false)]
+        public string content { get; set; }
     }
 }

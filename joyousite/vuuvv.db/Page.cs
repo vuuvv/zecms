@@ -5,18 +5,18 @@ using System.Text;
 
 namespace vuuvv.db
 {
-    [Table(name = "pages")]
+    [MyTable(name = "pages")]
     public class Page : TreeModel
     {
-        [Column]
+        [MyColumn]
         public string slug { get; set; }
-        [Column]
+        [MyColumn]
         public string title { get; set; }
-        [Column]
+        [MyColumn]
         public string content { get; set; }
-        [Column]
+        [MyColumn]
         public bool is_published { get; set; }
-        [Column]
+        [MyColumn]
         public int in_navigation { get; set; }
     }
 }
