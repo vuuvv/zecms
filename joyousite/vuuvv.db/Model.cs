@@ -8,9 +8,17 @@ namespace vuuvv.db
     {
         [Column(IsPrimaryKey=true, IsDbGenerated=true, CanBeNull=false)]
         public int id { get; set; }
+
+        public DataContext db
+        {
+            get
+            {
+                return WebDBHelper.db;
+            }
+        }
     }
 
-    public interface TreeModel<T>
+    public abstract class TreeModel : Model
     {
         [Column(CanBeNull=false)]
         public int lft { get; set; }
@@ -22,6 +30,6 @@ namespace vuuvv.db
         public int level { get; set; }
 
         [Association(ThisKey="parent_id", IsForeignKey=true)]
-        public EntityRef<T> parent { get; set; }
+        public EntityRef<TreeModel> parent { get; set; }
     }
 }

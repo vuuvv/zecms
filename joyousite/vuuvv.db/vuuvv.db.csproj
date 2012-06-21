@@ -42,15 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBHelper.cs" />
+    <Compile Include="Manager.cs" />
+    <Compile Include="Page.cs" />
+    <Compile Include="WebDBHelper.cs" />
+    <Compile Include="MyDBHelper.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="ModelHelper.cs" />
     <Compile Include="myModel.cs" />
-    <Compile Include="Page.cs" />
+    <Compile Include="MyPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultSet.cs" />
     <Compile Include="Schema.cs" />
-    <Compile Include="TreeModel.cs" />
+    <Compile Include="MyTreeModel.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="TypeConvert.cs" />
   </ItemGroup>

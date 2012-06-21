@@ -11,10 +11,10 @@ namespace joyouweb.admin
 {
     public partial class _default : System.Web.UI.Page
     {
-        private DBHelper db;
+        private MyDBHelper db;
         protected void Page_Load(object sender, EventArgs e)
         {
-            db = DBHelper.get();
+            db = MyDBHelper.get();
             db.execute("SELECT * FROM pages");
         }
     }

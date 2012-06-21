@@ -22,11 +22,11 @@ namespace models
 
         public int id { get; set; }
 
-        protected static DBHelper db
+        protected static MyDBHelper db
         {
             get
             {
-                return DBHelper.get();
+                return MyDBHelper.get();
             }
         }
 

@@ -71,7 +71,7 @@ namespace vuuvv.page
 
         protected virtual void db_close(object sender, EventArgs e)
         {
-            vuuvv.db.DBHelper.get().disconnect();
+            vuuvv.db.WebDBHelper.db.Dispose();
         }
 
         protected void dispatch(HttpContext context)

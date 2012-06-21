@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace vuuvv.db
 {
     public enum Position { first_child, last_child, left, right };
-    public abstract class TreeModel : MyModel
+    public abstract class MyTreeModel : MyModel
     {
         [MyColumn]
         public int parent_id { get; set; }
@@ -17,15 +17,15 @@ namespace vuuvv.db
         [MyColumn]
         public int rgt { get; set; }
 
-        private TreeModel _parent;
+        private MyTreeModel _parent;
 
-        public TreeModel()
+        public MyTreeModel()
             : base()
         {
             parent_id = -1;
         }
 
-        public TreeModel parent
+        public MyTreeModel parent
         {
             get
             {
@@ -33,7 +33,7 @@ namespace vuuvv.db
                     return null;
                 if (_parent != null)
                     return _parent;
-                _parent = ModelHelper.get<TreeModel>(parent_id);
+                _parent = ModelHelper.get<MyTreeModel>(parent_id);
                 return _parent;
             }
         }
@@ -80,9 +80,9 @@ namespace vuuvv.db
             pre_insert();
             base.insert();
         }
-        public void move_to(TreeModel target, Position position)
+        public void move_to(MyTreeModel target, Position position)
         {
-            TreeModel parent = null;
+            MyTreeModel parent = null;
             int t_lft = 1;
             int tree_width = rgt - lft + 1;
             int delta = t_lft - lft;
@@ -133,7 +133,7 @@ namespace vuuvv.db
             rm_space(c_rgt, tree_width, tree_id);
         }
 
-        public void move_to(TreeModel tree)
+        public void move_to(MyTreeModel tree)
         {
             move_to(tree, Position.last_child);
         }
@@ -167,8 +167,6 @@ namespace vuuvv.db
         {
             string sql = "SELECT MAX(`tree_id`) FROM pages";
             var id = db.one<int>(sql);
-            if (id == null)
-                return 0;
             return id + 1;
         }
     }

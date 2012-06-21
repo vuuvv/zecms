@@ -8,11 +8,11 @@ namespace vuuvv.db
 {
     public abstract class MyModel
     {
-        public static DBHelper db
+        public static MyDBHelper db
         {
             get
             {
-                return DBHelper.get();
+                return MyDBHelper.get();
             }
         }
 

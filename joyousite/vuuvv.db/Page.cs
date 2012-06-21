@@ -1,22 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Data.Linq;
+using System.Data.Linq.Mapping;
 
 namespace vuuvv.db
 {
-    [MyTable(name = "pages")]
-    public class Page : TreeModel
+    [Table(Name="pages")]
+    public class Page
     {
-        [MyColumn]
+        [Column(IsPrimaryKey=true, IsDbGenerated=true, CanBeNull=false)]
+        public int id { get; set; }
+
+        [Column(CanBeNull=false)]
+        public int lft { get; set; }
+
+        [Column(CanBeNull=false)]
+        public int rgt { get; set; }
+
+        [Column(CanBeNull=false)]
+        public int level { get; set; }
+
+        [Column(CanBeNull = true)]
+        public int? parent_id { get; set; }
+
+        private EntityRef<Page> _parent;
+        [Association(ThisKey="parent_id", OtherKey="id")]
+        public Page parent 
+        {
+            get 
+            { 
+                return this._parent.Entity; 
+            } 
+            set
+            {
+                this._parent.Entity = value;
+            } 
+        }
+
+        [Column(CanBeNull=false)]
         public string slug { get; set; }
-        [MyColumn]
+
+        [Column(CanBeNull=false)]
         public string title { get; set; }
-        [MyColumn]
+
+        [Column(CanBeNull=false)]
         public string content { get; set; }
-        [MyColumn]
-        public bool is_published { get; set; }
-        [MyColumn]
-        public int in_navigation { get; set; }
     }
 }

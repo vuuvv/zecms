@@ -17,11 +17,11 @@ namespace vuuvv.db
             { typeof(bool), new BooleanField() }
         };
 
-        public static DBHelper db
+        public static MyDBHelper db
         {
             get
             {
-                return DBHelper.get();
+                return MyDBHelper.get();
             }
         }
 
@@ -34,7 +34,7 @@ namespace vuuvv.db
                 if (_metadata == null)
                 {
                     _metadata = new Dictionary<Type, MyTable>();
-                    foreach (Type t in get_types_with_attribute<Table>(false)) 
+                    foreach (Type t in get_types_with_attribute<MyTable>(false)) 
                     {
                         MyTable table = (MyTable)Attribute.GetCustomAttribute(t, typeof(MyTable));
                         table.columns = get_columns(t);
@@ -123,7 +123,7 @@ namespace vuuvv.db
             Type t = obj.GetType();
             PropertyInfo prop = t.GetProperty(t_name);
             Type desired = prop.PropertyType;
-            prop.SetValue(obj, DBHelper.convert_to(reader[r_name], desired), null);
+            prop.SetValue(obj, MyDBHelper.convert_to(reader[r_name], desired), null);
         }
 
         public static void set_property_from_reader(object obj, string name, DbDataReader reader)
