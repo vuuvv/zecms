@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("vuuvv.db")]
+[assembly: AssemblyTitle("vuuvv.data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("vuuvv.db")]
+[assembly: AssemblyProduct("vuuvv.data")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b18ede07-87a7-4880-9a1e-7b515b6e7139")]
+[assembly: Guid("e62d874c-b826-4fa1-b055-88ef3659d252")]
 
 // Version information for an assembly consists of the following four values:
 //

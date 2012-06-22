@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace vuuvv.db
 {
+    /*
     public enum Position { first_child, last_child, left, right };
     public abstract class MyTreeModel : MyModel
     {
@@ -170,4 +171,5 @@ namespace vuuvv.db
             return id + 1;
         }
     }
+    */
 }

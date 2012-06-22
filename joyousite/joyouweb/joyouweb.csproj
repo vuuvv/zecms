@@ -33,6 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\packages\FluentNHibernate.1.3.0.727\lib\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -643,7 +652,6 @@
     </Compile>
     <Compile Include="admin\pages.aspx.cs">
       <DependentUpon>pages.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="admin\pages.aspx.designer.cs">
       <DependentUpon>pages.aspx</DependentUpon>
@@ -707,13 +715,9 @@
       <Project>{ED8DC721-B471-4082-BB7E-4F4972C268C8}</Project>
       <Name>ElFinder.Connector</Name>
     </ProjectReference>
-    <ProjectReference Include="..\models\models.csproj">
-      <Project>{B53B585B-0671-412C-9FBD-EA85265202BC}</Project>
-      <Name>models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\vuuvv.db\vuuvv.db.csproj">
-      <Project>{1FF03BFB-FE60-4DA2-8AD3-8832E872719B}</Project>
-      <Name>vuuvv.db</Name>
+    <ProjectReference Include="..\vuuvv.data\vuuvv.data.csproj">
+      <Project>{68F3DB6B-04D1-4B04-BB0E-0E98D1F84266}</Project>
+      <Name>vuuvv.data</Name>
     </ProjectReference>
     <ProjectReference Include="..\vuuvv.page\vuuvv.page.csproj">
       <Project>{C064A8AE-A450-42DF-9A89-D576DC097B29}</Project>
@@ -741,7 +745,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="joyou.Master" />
-    <None Include="App_Data\joyou.db" />
+    <Content Include="packages.config" />
     <None Include="Scripts\elfinder\Changelog" />
     <None Include="Scripts\elfinder\connectors\php\connector.php" />
     <None Include="Scripts\elfinder\connectors\php\elFinder.class.php" />

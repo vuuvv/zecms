@@ -13,11 +13,14 @@ namespace joyouweb.admin
 
         public void ProcessRequest(HttpContext context)
         {
+            /*
             string action = context.Request.Params["action"];
             Type t = this.GetType();
             t.GetMethod(action).Invoke(this, new object[] { context });
+            */
         }
 
+        /*
         public void page_add(HttpContext context)
         {
             context.Response.ContentType = "text/json";
@@ -86,6 +89,7 @@ namespace joyouweb.admin
             }
             context.Response.Write(string.Format("[{0}]", string.Join(",", json.ToArray())));
         }
+        */
 
         public bool IsReusable
         {

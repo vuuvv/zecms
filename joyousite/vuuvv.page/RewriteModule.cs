@@ -71,7 +71,7 @@ namespace vuuvv.page
 
         protected virtual void db_close(object sender, EventArgs e)
         {
-            vuuvv.db.WebDBHelper.db.Dispose();
+            //vuuvv.db.WebDBHelper.db.Dispose();
         }
 
         protected void dispatch(HttpContext context)
@@ -107,6 +107,7 @@ namespace vuuvv.page
                 }
             }
             // remained page need fetch data from database
+            /*
             models.Page page = models.Page.from_slug(path);
             if (page == null)
             {
@@ -114,6 +115,7 @@ namespace vuuvv.page
             }
             context.Items["page"] = page;
             context.RewritePath(resolve_url(req.ApplicationPath, template));
+            */
         }
 
         public static string to_slug(string path, string[] defaults, string ext)

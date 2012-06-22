@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C064A8AE-A450-42DF-9A89-D576DC097B29}</ProjectGuid>
+    <ProjectGuid>{68F3DB6B-04D1-4B04-BB0E-0E98D1F84266}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>vuuvv.page</RootNamespace>
-    <AssemblyName>vuuvv.page</AssemblyName>
+    <RootNamespace>vuuvv.data</RootNamespace>
+    <AssemblyName>vuuvv.data</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,9 +41,7 @@
       <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,24 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="configuration\PageSection.cs" />
-    <Compile Include="entities\Page.cs" />
-    <Compile Include="MyTreeModel.cs" />
-    <Compile Include="mapping\PageMap.cs" />
-    <Compile Include="Template.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="NHibernateSessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RewriteModule.cs" />
+    <Compile Include="SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\vuuvv.data\vuuvv.data.csproj">
-      <Project>{68F3DB6B-04D1-4B04-BB0E-0E98D1F84266}</Project>
-      <Name>vuuvv.data</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

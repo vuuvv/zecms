@@ -50,12 +50,6 @@
     <Compile Include="test.cs" />
     <Compile Include="TreeModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\vuuvv.db\vuuvv.db.csproj">
-      <Project>{1FF03BFB-FE60-4DA2-8AD3-8832E872719B}</Project>
-      <Name>vuuvv.db</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
