@@ -9,6 +9,7 @@ namespace vuuvv.page.mapping
         public PageMap() 
         {
             Id(x => x.id);
+            Map(x => x.tree_id);
             Map(x => x.lft);
             Map(x => x.rgt);
             Map(x => x.level);

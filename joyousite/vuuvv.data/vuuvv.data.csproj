@@ -49,9 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBHelper.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="NHibernateSessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

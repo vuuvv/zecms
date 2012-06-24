@@ -22,7 +22,7 @@ namespace vuuvv.data
     /// </summary>
     public sealed class NHibernateSessionManager
     {
-        public static HashSet<string> MAPS = new HashSet<string>(){
+        public static HashSet<string> mappings = new HashSet<string>(){
             "vuuvv.page.mapping.PageMap"
         };
 
@@ -78,13 +78,11 @@ namespace vuuvv.data
         {
             foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
             {
-                string[] list = MAPS.ToArray();
-                foreach (var name in list)
+                foreach (var name in mappings)
                 {
                     if (a.GetType(name) != null)
                     {
                         m.FluentMappings.AddFromAssembly(a);
-                        MAPS.Remove(name);
                     }
                 }
             }

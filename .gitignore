@@ -13,3 +13,4 @@ dist/
 mezzanine/project_template/static/
 bin/
 obj/
+TestResults/

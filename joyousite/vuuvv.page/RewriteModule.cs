@@ -7,7 +7,7 @@ using vuuvv.page.configuration;
 
 namespace vuuvv.page
 {
-    class RewriteModule : IHttpModule
+    public class RewriteModule : IHttpModule
     {
         public PageSection config
         {
